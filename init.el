@@ -34,11 +34,10 @@
   (local-set-key (kbd "C-M-h") 'help)
   (local-set-key (kbd "C-M-l") 'recenter-top-bottom)
   (local-set-key (kbd "C-M-k") 'kill-line)
-  (setq whitespace-style '(face trailing empty indentation)))
+  (setq whitespace-style '(face trailing empty indentation))
+  (require whitespace-mode))
 
 (add-hook 'enh-ruby-mode-hook 'my-enh-ruby-mode-config)
-(add-hook 'enh-ruby-mode-hook 'whitespace-mode)
-
 
 ;; remap movement keys to be vim-like
 (global-set-key (kbd "C-k") 'previous-line)
