@@ -1,8 +1,6 @@
 (setq major-mode 'text-mode)
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 
-(setq whitespace-style '(trailing empty indentation))
-
 (autoload 'enh-ruby-mode "enh-ruby-mode" "Major mode for ruby files" t)
 (add-to-list
  'auto-mode-alist
@@ -21,7 +19,7 @@
 
 ;; Set auto-save file location to ~/.emacs.d/auto-save/
 (setq auto-save-file-name-transforms
-      `((".*" ,(concat user-emacs-directory "auto-save/") t))) 
+      `((".*" ,(concat user-emacs-directory "auto-save/") t)))
 
 (defun my-enh-ruby-mode-config ()
   (local-set-key (kbd "C-k") 'previous-line)
@@ -33,12 +31,12 @@
   (local-set-key (kbd "C-o") 'jump-to-newline)
   (local-set-key (kbd "C-M-h") 'help)
   (local-set-key (kbd "C-M-l") 'recenter-top-bottom)
-  (local-set-key (kbd "C-M-k") 'kill-line)
-  (setq whitespace-style '(face trailing empty indentation)))
+  (local-set-key (kbd "C-M-k") 'kill-line))
+
+(setq whitespace-style '(face trailing empty))
 
 (add-hook 'enh-ruby-mode-hook 'my-enh-ruby-mode-config)
-(add-hook 'enh-ruby-mode-hook 'whitespace-mode)
-
+(add-hook 'prog-mode-hook 'whitespace-mode)
 
 ;; remap movement keys to be vim-like
 (global-set-key (kbd "C-k") 'previous-line)
@@ -60,7 +58,7 @@
 ;; set cycle-spacing
 (global-set-key (kbd "M-SPC") 'cycle-spacing)
 
-;; ruby-mode 
+;; ruby-mode
 (add-hook 'ruby-mode-hook 'ruby-electric-mode)
 
 ;; emacs-lisp mode
@@ -99,7 +97,7 @@
     (newline)
     (indent-for-tab-command))
 
-;; (╯°□°)╯︵ ┻━┻ 
+;; (╯°□°)╯︵ ┻━┻
 (defun flip-table (num)
   "Animates flipping a table."
   (interactive "p")
