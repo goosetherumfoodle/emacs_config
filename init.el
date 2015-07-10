@@ -1,4 +1,12 @@
-(setq major-mode 'text-mode)
+(defun my-web-mode-config ()
+  (setq web-mode-markup-indent-offset 2))
+(add-hook 'web-mode-hook 'my-web-mode-config)
+
+;; First attempt at sorting out config
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/load-paths.el"))
+;;(require 'load-paths)
+
+(setq-default major-mode 'text-mode)
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 
 (autoload 'enh-ruby-mode "enh-ruby-mode" "Major mode for ruby files" t)
@@ -62,9 +70,11 @@
 (add-hook 'ruby-mode-hook 'ruby-electric-mode)
 
 ;; emacs-lisp mode
-(add-hook 'emacs-lisp-mode-hook 'show-paren-mode)
-(add-hook 'emacs-lisp-mode-hook 'eldoc-mode)
-(add-hook 'emacs-lisp-mode-hook 'autopair-mode)
+;; (setq emacs-lisp-mode-hook (cons emacs-lisp-mode-hook '(smartparens-mode show-paren-mode eldoc-mode rainbow-delimiters-mode)))
+(add-hook 'emacs-lisp-mode 'smartparens-mode)
+(add-hook 'emacs-lisp-mode 'show-paren-mode)
+(add-hook 'emacs-lisp-mode 'eldoc-mode)
+(add-hook 'emacs-lisp-mode 'rainbow-delimiters-mode)
 
 ;; clojure/cider mode hooks
 (add-hook 'cider-mode-hook 'eldoc-mode)
