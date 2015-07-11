@@ -1,3 +1,5 @@
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
 (setq x-select-enable-clipboard t
       x-select-enable-primary t
       save-interprogram-paste-before-kill t
@@ -137,7 +139,7 @@
     (delete-region start-point (point))
     (insert "(╯°□°)╯︵ ┻━┻ ")))
 
-;; flip-pɹoʍ︵\(°□°\)  
+;; flip-pɹoʍ︵\(°□°\)
 (defun flip-word (num)
   "Animates flipping the last word."
   (interactive "p")
@@ -155,7 +157,7 @@
 (defun rotate-word (string)
   (let ((flipped))
     (dolist (ascii-dec (string-to-list string))
-      (setq flipped (cons 
+      (setq flipped (cons
 		     (unicode-to-char
 		      (dec-to-upside-down-unicode ascii-dec))
 		     flipped)))
@@ -249,12 +251,10 @@
  ;; If there is more than one, they won't work right.
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
- '(ansi-color-names-vector
-   ["#2d3743" "#ff4242" "#74af68" "#dbdb95" "#34cae2" "#008b8b" "#00ede1" "#e1e1e0"])
- '(custom-enabled-themes (quote (lush)))
+ '(custom-enabled-themes (quote (hipster)))
  '(custom-safe-themes
    (quote
-    ("0820d191ae80dcadc1802b3499f84c07a09803f2cb90b343678bdb03d225b26b" default)))
+    ("1c50040ec3b3480b1fec3a0e912cac1eb011c27dd16d087d61e72054685de345" "0820d191ae80dcadc1802b3499f84c07a09803f2cb90b343678bdb03d225b26b" default)))
  '(sp-base-key-bindings (quote sp)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
