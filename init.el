@@ -1,5 +1,9 @@
 (global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "C-x g") 'magit-status)
+
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+(global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
+
 
 (setq x-select-enable-clipboard t
       x-select-enable-primary t
