@@ -1,3 +1,4 @@
+(global-set-key (kbd "M-x") 'helm-M-x)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 (setq x-select-enable-clipboard t
