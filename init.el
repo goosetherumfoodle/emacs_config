@@ -58,16 +58,17 @@
       `((".*" ,(concat user-emacs-directory "auto-save/") t)))
 
 (defun my-enh-ruby-mode-config ()
-  (local-set-key (kbd "C-k") 'previous-line)
-  (local-set-key (kbd "C-j") 'next-line)
-  (local-set-key (kbd "C-h") 'backward-char)
-  (local-set-key (kbd "C-l") 'forward-char)
-  (local-set-key (kbd "M-h") 'backward-word)
-  (local-set-key (kbd "M-l") 'forward-word)
+  ;; (local-set-key (kbd "C-k") 'previous-line)
+  ;; (local-set-key (kbd "C-j") 'next-line)
+  ;; (local-set-key (kbd "C-h") 'backward-char)
+  ;; (local-set-key (kbd "C-l") 'forward-char)
+  ;; (local-set-key (kbd "M-h") 'backward-word)
+  ;; (local-set-key (kbd "M-l") 'forward-word)
   (local-set-key (kbd "C-o") 'jump-to-newline)
-  (local-set-key (kbd "C-M-h") 'help)
-  (local-set-key (kbd "C-M-l") 'recenter-top-bottom)
-  (local-set-key (kbd "C-M-k") 'kill-line))
+  ;; (local-set-key (kbd "C-M-h") 'help)
+  ;; (local-set-key (kbd "C-M-l") 'recenter-top-bottom)
+  ;; (local-set-key (kbd "C-M-k") 'kill-line)
+  )
 
 (setq whitespace-style '(face trailing empty))
 
@@ -75,18 +76,18 @@
 (add-hook 'prog-mode-hook 'whitespace-mode)
 
 ;; remap movement keys to be vim-like
-(global-set-key (kbd "C-k") 'previous-line)
-(global-set-key (kbd "C-j") 'next-line)
-(global-set-key (kbd "C-h") 'backward-char)
-(global-set-key (kbd "C-l") 'forward-char)
-(global-set-key (kbd "M-h") 'backward-word)
-(global-set-key (kbd "M-l") 'forward-word)
+;; (global-set-key (kbd "C-k") 'previous-line)
+;; (global-set-key (kbd "C-j") 'next-line)
+;; (global-set-key (kbd "C-h") 'backward-char)
+;; (global-set-key (kbd "C-l") 'forward-char)
+;; (global-set-key (kbd "M-h") 'backward-word)
+;; (global-set-key (kbd "M-l") 'forward-word)
 (global-set-key (kbd "C-o") 'jump-to-newline)
 
 ;; remap keys overridden above
-(global-set-key (kbd "C-M-h") 'help)
-(global-set-key (kbd "C-M-l") 'recenter-top-bottom)
-(global-set-key (kbd "C-M-k") 'kill-line)
+;; (global-set-key (kbd "C-M-h") 'help)
+;; (global-set-key (kbd "C-M-l") 'recenter-top-bottom)
+;; (global-set-key (kbd "C-M-k") 'kill-line)
 
 ;; set hippie-exand
 (global-set-key (kbd "M-/") 'hippie-expand)
