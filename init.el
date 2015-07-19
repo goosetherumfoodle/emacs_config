@@ -70,11 +70,20 @@
   ;; (local-set-key (kbd "C-M-k") 'kill-line)
   )
 
+
+
 (setq whitespace-style '(face trailing empty))
 
 (add-hook 'enh-ruby-mode-hook 'my-enh-ruby-mode-config)
 (add-hook 'prog-mode-hook 'whitespace-mode)
 
+(defun my-org-mode-config ()
+  (local-set-key (kbd "M-<RET>") 'org-insert-heading)
+  (local-set-key (kbd "C-<RET>") 'org-insert-heading-respect-content))
+
+(add-hook 'org-mode-hook 'my-enh-ruby-mode-config)
+
+;; comment out to try and get used to defaults
 ;; remap movement keys to be vim-like
 ;; (global-set-key (kbd "C-k") 'previous-line)
 ;; (global-set-key (kbd "C-j") 'next-line)
