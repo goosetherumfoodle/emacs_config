@@ -1,6 +1,4 @@
-;; TODO: Fix this
-;; First attempt at sorting out config
-(load (expand-file-name "load-paths.el"))
+(load (expand-file-name "load-paths"))
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
