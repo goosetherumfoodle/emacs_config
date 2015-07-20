@@ -5,3 +5,4 @@ session*
 /eshell
 ido.last
 /*.elc
+/*/*.elc
