@@ -1,6 +1,12 @@
-(defun shit ()
-  "test function"
-  (interactive)
-  (insert-string "SHIT!"))
-
-(provide 'load-paths)
+(load (expand-file-name "novelty.el"))
+(load (expand-file-name "ruby.el"))
+(load (expand-file-name "elisp.el"))
+(load (expand-file-name "web.el"))
+(load (expand-file-name "global-keybindings.el"))
+(load (expand-file-name "clojure.el"))
+(load (expand-file-name "prog.el"))
+(load (expand-file-name "org.el"))
+(load (expand-file-name "defun.el"))
+(load (expand-file-name "rspec.el"))
+(load (expand-file-name "smartparens.el"))
+(load (expand-file-name "whitespace.el"))
