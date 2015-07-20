@@ -37,7 +37,9 @@
 (setq auto-save-file-name-transforms
       `((".*" ,(concat user-emacs-directory "auto-save/") t)))
 
-;; Customize defined stuff
+;;;;;;;;;;;;;;;;;;;;
+;;; set by emacs ;;;
+;;;;;;;;;;;;;;;;;;;;
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 (custom-set-variables
