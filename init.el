@@ -21,7 +21,7 @@
 (when (fboundp 'scroll-bar-mode)
   (scroll-bar-mode -1))
 
-(setq-default major-mode 'text-mode)
+(setq-default major-mode 'org-mode)
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 
 ;; from MELPA site
