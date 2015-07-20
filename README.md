@@ -18,3 +18,4 @@ This config is a work in progress. I would recommend trying out bits and pieces 
     * specifies all other loadpaths
 * `user-defined/*`
     * everything besides `loadpaths.el` are variables and functions grouped by their relation to a particular mode or topic.
+    * they will only be loaded if they are specified in `loadpaths.el`
