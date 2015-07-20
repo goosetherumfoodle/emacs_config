@@ -83,6 +83,11 @@
 
 (add-hook 'org-mode-hook 'my-enh-ruby-mode-config)
 
+(defun my-prog-mode-cofig ()
+  (linum-mode 1))
+
+(add-hook 'prog-mode-hook 'my-prog-mode-cofig)
+
 ;; comment out to try and get used to defaults
 ;; remap movement keys to be vim-like
 ;; (global-set-key (kbd "C-k") 'previous-line)
