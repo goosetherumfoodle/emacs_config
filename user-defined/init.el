@@ -1,4 +1,4 @@
-(add-to-list 'load-path "~/.emacs.d/user-defined")
+(add-to-list 'load-path "~/.emacs.d")
 (load "load-paths")
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
