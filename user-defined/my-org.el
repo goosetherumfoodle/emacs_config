@@ -12,10 +12,26 @@
 	(+ minutes (* hours 60)))))
 
   (defun number-to-time (number)
+    "Converts a float into formatted string (hh:mm)"
     (let ((hours (/ number 60))
 	  (minutes (% number 60)))
       (concat (format "%d" hours)
 	      ":"
-	      (format "%02d" minutes)))))
+	      (format "%02d" minutes))))
+
+  (defun sum-times (time-list)
+    "Takes a list of times (hh:mm), and returns sum in the same format (hh:mm)"
+    (number-to-time (apply '+ (mapcar 'to-minutes time-list))))
+
+  (defun time-to-wage (time dollars-per-hour)
+    "Converts time (hh:mm) to wages."
+    (let ((minutes (to-minutes time)))
+      (let ((hours (/ minutes
+		      60.0)))
+	(format "%0.2f" (* hours dollars-per-hour)))))
+
+  (defun number-to-dollars (float)
+    "Formats float into dollar string"
+    (format "$%0.2f" float)))
 
 (add-hook 'org-mode-hook 'my-org-mode-config)
