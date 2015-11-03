@@ -2,6 +2,11 @@
   (local-set-key (kbd "C-M-j") 'org-insert-heading)
   (local-set-key (kbd "C-<RET>") 'org-insert-heading-respect-content)
 
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((sh . t)
+     (ruby . t)))
+
   (defun to-minutes (time-string)
     "Accepts a string of format '(h)h:mm' and returns total minutes"
     (string-match "\\([0-9]+\\):\\([0-9]\\{2,\\}\\)" time-string)
