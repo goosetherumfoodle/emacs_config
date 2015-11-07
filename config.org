@@ -368,6 +368,7 @@ Don't automatically open the cider repl in a new window.
 #+BEGIN_SRC emacs-lisp
   (setq cider-repl-pop-to-buffer-on-connect nil)
 #+END_SRC
+
 * config for emacs lisp
 
 Add hook for smartparens mode. (see clojure config for explanation)
@@ -399,10 +400,13 @@ effect.
 #+END_SRC
 
 * config for scheme
+
+Start rainbow-delimiters mode with scheme
 #+BEGIN_SRC emacs-lisp
   (add-hook 'scheme-mode-hook 'rainbow-delimiters-mode)
 #+END_SRC
 
+Start smartparens-mode with scheme.
 #+BEGIN_SRC emacs-lisp
   (add-hook 'scheme-mode-hook 'smartparens-mode)
 #+END_SRC
