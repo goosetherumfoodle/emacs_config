@@ -132,6 +132,18 @@ explicitly enabled. At the moment this only explicitly enables shell
      (ruby . t)))
 #+END_SRC
 
+* smart-parens-mode configuration
+The default slurping and barfing commands were being captured by my
+terminal before smart parens mode could get them. This remapping
+fixed that.
+#+BEGIN_SRC emacs-lisp
+  (defun my-smartparens-mode-config ()
+    "map slurping and barfing (because the default C-M-<right>/<left> were being capture by the terminal)"
+    (local-set-key (kbd "M-<right>") 'sp-backward-barf-sexp)
+    (local-set-key (kbd "M-<left>") 'sp-backward-slurp-sexp))
+
+  (add-hook 'smartparens-mode-hook 'my-smartparens-mode-config)
+#+END_SRC
 * configuration for Ruby
 
 Require enh-ruby-mode
@@ -170,6 +182,18 @@ Adds a hook to start ruby electric mode. Ruby electric mode will
 auto-complete brackets, parens, and do-end blocks.
 #+BEGIN_SRC emacs-lisp
   (add-hook 'enh-ruby-mode-hook 'ruby-electric-mode)
+#+END_SRC
+
+I this fix from https://github.com/pezra/rspec-mode is supposed to fix
+a bug where rspec runs in zshell and doesn't work. I'm not sure if
+it's actually helping me or not, as I haven't put much time into
+getting rspec running in emacs.
+#+BEGIN_SRC emacs-lisp
+  (defadvice rspec-compile (around rspec-compile-around)
+    "Use BASH shell for running the specs because of ZSH issues."
+    (let ((shell-file-name "/bin/bash"))
+      ad-do-it))
+  (ad-activate 'rspec-compile)
 #+END_SRC
 
 * configuration for Clojure
