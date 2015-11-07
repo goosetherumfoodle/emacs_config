@@ -144,6 +144,32 @@ fixed that.
 
   (add-hook 'smartparens-mode-hook 'my-smartparens-mode-config)
 #+END_SRC
+* web-mode configuration
+I prefer web-mode to whatever the default mode was for dealing with
+html.
+
+Require web-mode
+#+BEGIN_SRC emacs-lisp
+  (use-package web-mode
+    :ensure t)
+#+END_SRC
+
+Set various file-types to invoke web-mode
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+#+END_SRC
+
+The default indenting was too much for me, so I set it to 2 spaces.
+#+BEGIN_SRC emacs-lisp
+  (setq web-mode-markup-indent-offset 2)
+#+END_SRC
+
 * configuration for Ruby
 
 Require enh-ruby-mode
