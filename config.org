@@ -49,6 +49,40 @@ obviously requires this directory to be in place.
         `((".*" ,(concat user-emacs-directory "auto-save/") t)))
 #+END_SRC
 
+* global keybindings
+
+Set M-x to use helm
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "M-x") 'helm-M-x)
+#+END_SRC
+
+Set the magit bindings recommended in the magit tutorial
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-x g") 'magit-status)
+(global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
+#+END_SRC
+
+I missed Vi's "o" button which would jump to the next line without
+breaking the current line. So I wrote a function to do that and mapped
+it to C-o. The function is defined in the custom functions section.
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-o") 'jump-to-newline)
+#+END_SRC
+
+Use hippie-expand instead of the default expand. It will rotate
+through many different expansion options. Can be a little much at
+times.
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "M-/") 'hippie-expand)
+#+END_SRC
+
+Set M-SPC to cyle through spaces between characters (alternating
+between no space, one space, and however many spaces it is
+currently). This can be used as a quick way to delete extra whitespace
+#+BEGIN_SRC
+(global-set-key (kbd "M-SPC") 'cycle-spacing)
+#+END_SRC
+
 * text-mode configuration
 
 Turn on auto-fill mode.
@@ -117,7 +151,6 @@ auto-complete brackets, parens, and do-end blocks.
   (add-hook 'enh-ruby-mode-hook 'ruby-electric-mode)
 #+END_SRC
 
-
 * configuration for Clojure
 
 Require cider-mode. Cider-mode will evaluate clojure in a repl.
@@ -158,4 +191,64 @@ Tell the nrepl (which cider-mode users) to log protocol messages
 Don't automatically open the cider repl in a new window.
 #+BEGIN_SRC emacs-lisp
   (setq cider-repl-pop-to-buffer-on-connect nil)
+#+END_SRC
+* configuration for emacs lisp
+
+Add hook for smartparens mode. (see clojure config for explanation)
+#+BEGIN_SRC emacs-lisp
+(add-hook 'emacs-lisp-mode-hook 'smartparens-mode)
+#+END_SRC
+
+Add hook for show parens mode (see clojure config)
+#+BEGIN_SRC emacs-lisp
+(add-hook 'emacs-lisp-mode-hook 'show-paren-mode)
+#+END_SRC
+
+Add hook for eldoc-mode (see clojure config)
+#+BEGIN_SRC emacs-lisp
+(add-hook 'emacs-lisp-mode-hook 'eldoc-mode)
+#+END_SRC
+
+Add hook for rainbow delimiters mode (see clojure config)
+#+BEGIN_SRC emacs-lisp
+(add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode)
+#+END_SRC
+
+On saving, byte compile any .el file that already has a corrisponding
+.elc file. This is to guard against someone updating the .el file but
+forgetting to byte-compile it, and not having the changes take
+effect.
+#+BEGIN_SRC emacs-lisp
+(add-hook 'after-save-hook 'byte-compile-current-buffer)
+#+END_SRC
+
+* custom functions
+
+I wrote this because I missed Vi's "o" button which would create an
+empty line below the current one, and jump to it without breaking the
+current line. I may be duplicating some existing emacs command here.
+#+BEGIN_SRC emacs-lisp
+  (defun jump-to-newline ()
+      "Move to the end of the current line, then create a newline.
+  \(Like \"o\" in Vi.\) I'm probably replicating a pre-existing command."
+      (interactive)
+      (move-end-of-line nil)
+      (newline)
+      (indent-for-tab-command))
+#+END_SRC
+
+I got this function from:
+http://ergoemacs.org/emacs/emacs_byte_compile.html
+
+When in emacs-lisp-mode, this will check that a byte compiled version
+of the current .el file exists, and if it does, it will
+byte-compile. This is useful for keeping .el files from falling out of
+date behind their byte-compiled versions.
+#+BEGIN_SRC emacs-lisp
+  (defun byte-compile-current-buffer ()
+    "`byte-compile' current buffer if it's emacs-lisp-mode and compiled file exists."
+    (interactive)
+    (when (and (eq major-mode 'emacs-lisp-mode)
+               (file-exists-p (byte-compile-dest-file buffer-file-name)))
+      (byte-compile-file buffer-file-name)))
 #+END_SRC
