@@ -30,7 +30,8 @@ Flash top and bottom bars of the screen as an alert
 #+END_SRC
 
 Set the maximum length of a string printed by evaluating a function to
-unlimited
+unlimited. (I had to set this to fix some annoying behavior when
+evaluating elisp functions).
 #+BEGIN_SRC emacs-lisp
 (setq eval-expression-print-length nil)
 #+END_SRC
@@ -51,7 +52,7 @@ obviously requires this directory to be in place.
 
 * global keybindings
 
-Set M-x to use helm
+Use helm for function search
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "M-x") 'helm-M-x)
 #+END_SRC
@@ -105,13 +106,15 @@ Define and then set a function to start in prog-mode. The function
 will:
 - I've commented out the relative line numbering mode because for some
   reason when emacs starts up it can't find this function definition
+- set regular line-number mode instead
 - require a final \n character at the end of the file
 #+BEGIN_SRC emacs-lisp
-  (defun my-prog-mode-config ()
-;;    (linum-relative-on)
-    (setq require-final-newline t))
+    (defun my-prog-mode-config ()
+  ;;    (linum-relative-on)
+      (linum-mode)
+      (setq require-final-newline t))
 
-  (add-hook 'prog-mode-hook 'my-prog-mode-config)
+    (add-hook 'prog-mode-hook 'my-prog-mode-config)
 #+END_SRC
 * org-mode
 
@@ -345,7 +348,8 @@ date behind their byte-compiled versions.
 
 ** org-mode spreadsheet helper functions
 I wrote these functions to help with calculating my work hours and
-wages in an org-mode spreadsheet.
+wages in an org-mode spreadsheet. I needed these to help calculate
+values in spreadsheet cells.
 
 Adds up the minutes in hh:mm formatted time string.
 #+BEGIN_SRC emacs-lisp
