@@ -77,3 +77,85 @@ will:
 
   (add-hook 'prog-mode-hook 'my-prog-mode-config)
 #+END_SRC
+* configuration for Ruby
+
+Require enh-ruby-mode
+#+BEGIN_SRC emacs-lisp
+  (use-package enh-ruby-mode
+               :ensure t)
+#+END_SRC
+
+Use enh-ruby-mode instead of ruby-mode. Among other things, it has
+  better detection of syntax errors.
+#+BEGIN_SRC emacs-lisp
+  (add-to-list
+   'auto-mode-alist
+   '("\\(?:\\.rb\\|ru\\|rake\\|thor\\|jbuilder\\|gemspec\\|podspec\\|/\\(?:Gem\\|Rake\\|Cap\\|Thor\\|Vagrant\\|Guard\\|Pod\\)file\\)\\'" . enh-ruby-mode))
+  (add-to-list 'interpreter-mode-alist '("ruby" . enh-ruby-mode))
+#+END_SRC
+
+Adds a function to be run with enh-ruby-mode which:
+- Sets "C-o" to jump to a new line
+- creates "M-x insert-pry" command which will insert a pry statement
+#+BEGIN_SRC emacs-lisp
+  (defun my-enh-ruby-mode-config ()
+    (local-set-key (kbd "C-o") 'jump-to-newline)
+    (fset 'insert-pry
+          (lambda (&optional arg)
+            "Keyboard macro."
+            (interactive "p")
+            (kmacro-exec-ring-item
+             (quote ("require 'pry'; binding.pry" 0 "%d"))
+             arg))))
+
+  (add-hook 'enh-ruby-mode-hook 'my-enh-ruby-mode-config)
+#+END_SRC
+
+Adds a hook to start ruby electric mode. Ruby electric mode will
+auto-complete brackets, parens, and do-end blocks.
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'enh-ruby-mode-hook 'ruby-electric-mode)
+#+END_SRC
+
+
+* configuration for Clojure
+
+Require cider-mode. Cider-mode will evaluate clojure in a repl.
+#+BEGIN_SRC emacs-lisp
+  (use-package cider-mode
+               :ensure t)
+#+END_SRC
+
+start eldoc-mode in cider-mode. Eldoc shows doc strings in the
+mini-buffer.
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'cider-mode-hook 'eldoc-mode)
+#+END_SRC
+
+Hook for rainbow-delimiters mode. Rainbow delimiters colors parens
+based on nesting level.
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)
+#+END_SRC
+
+Hook for show parens mode. Show parens mode will highlight the
+matching paren to the paren under the cursor
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'clojure-mode-hook 'show-paren-mode)
+#+END_SRC
+
+Hook for smartparens mode. Smartparens mode auto-completes parens, and
+adds commands that make working with paren-heavy languages easier.
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'clojure-mode-hook 'smartparens-mode)
+#+END_SRC
+
+Tell the nrepl (which cider-mode users) to log protocol messages
+#+BEGIN_SRC emacs-lisp
+  (setq nrepl-log-messages t)
+#+END_SRC
+
+Don't automatically open the cider repl in a new window.
+#+BEGIN_SRC emacs-lisp
+  (setq cider-repl-pop-to-buffer-on-connect nil)
+#+END_SRC
