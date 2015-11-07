@@ -210,7 +210,9 @@ Use enh-ruby-mode instead of ruby-mode. Among other things, it has
 
 Adds a function to be run with enh-ruby-mode which:
 - Sets "C-o" to jump to a new line
-- creates "M-x insert-pry" command which will insert a pry statement
+- creates "M-x insert-pry" command which will insert "require 'pry';
+  binding.pry". (This will cause the ruby interpreter to start the pry
+  repl in the context of this line).
 #+BEGIN_SRC emacs-lisp
   (defun my-enh-ruby-mode-config ()
     (local-set-key (kbd "C-o") 'jump-to-newline)
