@@ -94,19 +94,21 @@ Turn on auto-fill mode.
 
 prog mode is the super class of every programming language mode
 
-require the linum-relative package which enables relative line numbers
+require the linum-relative package which enables relative line
+numbers. I've commented this out because use-package is erroring out.
 #+BEGIN_SRC emacs-lisp
-  (use-package linum-relative
-               :ensure t)
+;;  (use-package linum-relative
+;;               :ensure t)
 #+END_SRC
 
 Define and then set a function to start in prog-mode. The function
 will:
-- turn on relative line numbering
+- I've commented out the relative line numbering mode because for some
+  reason when emacs starts up it can't find this function definition
 - require a final \n character at the end of the file
 #+BEGIN_SRC emacs-lisp
   (defun my-prog-mode-config ()
-    (linum-relative-on)
+;;    (linum-relative-on)
     (setq require-final-newline t))
 
   (add-hook 'prog-mode-hook 'my-prog-mode-config)
@@ -116,8 +118,12 @@ will:
 Set keys that were supposed to be already set in org-mode, but for
 some reason were not set for me by default.
 #+BEGIN_SRC emacs-lisp
-  (local-set-key (kbd "C-M-j") 'org-insert-heading)
-  (local-set-key (kbd "C-<RET>") 'org-insert-heading-respect-content)
+  (defun my-org-mode-config ()
+    (local-set-key (kbd "C-M-j") 'org-insert-heading)
+    (local-set-key (kbd "C-<RET>") 'org-insert-heading-respect-content)
+    (linum-relative-off))
+  (add-hook 'org-mode-hook 'my-org-mode-config)
+
 #+END_SRC
 
 Specify which languages org-mode can execute (by C-c C-c'ing with the
@@ -148,10 +154,11 @@ fixed that.
 I prefer web-mode to whatever the default mode was for dealing with
 html.
 
-Require web-mode
+Require web-mode. I've commented this out because use-package is
+erroring out
 #+BEGIN_SRC emacs-lisp
-  (use-package web-mode
-    :ensure t)
+;;  (use-package web-mode
+;;    :ensure t)
 #+END_SRC
 
 Set various file-types to invoke web-mode
@@ -183,10 +190,10 @@ don't remember what it does, but I'm sure it's great.
 #+END_SRC
 * config for Ruby
 
-Require enh-ruby-mode
+Require enh-ruby-mode.
 #+BEGIN_SRC emacs-lisp
-  (use-package enh-ruby-mode
-               :ensure t)
+;;  (use-package enh-ruby-mode
+;;               :ensure t)
 #+END_SRC
 
 Use enh-ruby-mode instead of ruby-mode. Among other things, it has
@@ -235,10 +242,11 @@ getting rspec running in emacs.
 
 * config for Clojure
 
-Require cider-mode. Cider-mode will evaluate clojure in a repl.
+Require cider-mode. Cider-mode will evaluate clojure in a repl.  I've commented this out because use-package is
+erroring out
 #+BEGIN_SRC emacs-lisp
-  (use-package cider-mode
-               :ensure t)
+;;  (use-package cider-mode
+;;               :ensure t)
 #+END_SRC
 
 start eldoc-mode in cider-mode. Eldoc shows doc strings in the
