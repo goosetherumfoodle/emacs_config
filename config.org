@@ -1,4 +1,4 @@
-* general configuration
+* general config
 
 Make org-mode the defualt file mode
 #+BEGIN_SRC emacs-lisp
