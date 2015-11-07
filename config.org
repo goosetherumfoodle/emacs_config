@@ -233,6 +233,85 @@ auto-complete brackets, parens, and do-end blocks.
   (add-hook 'enh-ruby-mode-hook 'ruby-electric-mode)
 #+END_SRC
 
+Overshadow the ruby-electric-curlies function defined in
+ruby-electric-mode. I added a slight modification to the function to
+put the cursor in between the curly braces, padded with a space on
+either side (like "{ X }").
+#+BEGIN_SRC emacs-lisp
+  (defun ruby-electric-mode-config ()
+   (defun ruby-electric-curlies (arg)
+     (interactive "*P")
+     (ruby-electric-insert
+      arg
+      (cond
+       ((ruby-electric-code-at-point-p)
+        (save-excursion
+          (insert "}")
+          (font-lock-fontify-region (line-beginning-position) (point)))
+        (cond
+         ((ruby-electric-string-at-point-p) ;; %w{}, %r{}, etc.
+          (if region-beginning
+              (forward-char 1)))
+         (ruby-electric-newline-before-closing-bracket
+          (cond (region-beginning
+                 (save-excursion
+                   (goto-char region-beginning)
+                   (newline))
+                 (newline)
+                 (forward-char 1)
+                 (indent-region region-beginning (line-end-position)))
+                (t
+                 (insert " ")
+                 (save-excursion
+                   (newline)
+                   (ruby-indent-line t)))))
+         (t
+          (if region-beginning
+              (save-excursion
+                (goto-char region-beginning)
+                (insert " "))
+            (insert " "))
+          (insert " ")
+          (backward-char)
+          (and region-beginning
+               (forward-char 1)))))
+       ((ruby-electric-string-at-point-p)
+        (let ((start-position (1- (or region-beginning (point)))))
+          (cond
+           ((char-equal ?\# (char-before start-position))
+            (unless (save-excursion
+                      (goto-char (1- start-position))
+                      (ruby-electric-escaped-p))
+              (insert "}")
+              (or region-beginning
+                  (backward-char 1))))
+           ((or
+             (ruby-electric-command-char-expandable-punct-p ?\#)
+             (save-excursion
+               (goto-char start-position)
+               (ruby-electric-escaped-p)))
+            (if region-beginning
+                (goto-char region-beginning))
+            (setq this-command 'self-insert-command))
+           (t
+            (save-excursion
+              (goto-char start-position)
+              (insert "#"))
+            (insert "}")
+            (or region-beginning
+                (backward-char 1))))))
+       (t
+        (delete-char -1)
+        (ruby-electric-replace-region-or-insert))))))
+#+END_SRC
+
+Add a hook so that when ruby-electric-mode starts, the
+ruby-electric-curlies function will be overshadowed. Without doing
+this the packaged version of the function takes precedence.
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'ruby-electric-mode-hook 'ruby-electric-mode-config)
+#+END_SRC
+
 I this fix from https://github.com/pezra/rspec-mode is supposed to fix
 a bug where rspec runs in zshell and doesn't work. I'm not sure if
 it's actually helping me or not, as I haven't put much time into
