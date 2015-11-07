@@ -315,6 +315,15 @@ effect.
 (add-hook 'after-save-hook 'byte-compile-current-buffer)
 #+END_SRC
 
+* config for scheme
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'scheme-mode-hook 'rainbow-delimiters-mode)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'scheme-mode-hook 'smartparens-mode)
+#+END_SRC
+
 * custom functions
 
 I wrote this because I missed Vi's "o" button which would create an
@@ -402,6 +411,7 @@ Converts a float into dollar format ($0.00)
     "Formats float into dollar string"
     (format "$%0.2f" float))
 #+END_SRC
+
 * novelty functions
   These were the first functions I wrote, while reading the built-in
   emacs lisp tutorial. A friend of mine loves the table-flipping meme,
