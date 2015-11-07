@@ -1,6 +1,0 @@
-(global-set-key (kbd "M-x") 'helm-M-x)
-(global-set-key (kbd "C-x g") 'magit-status)
-(global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
-(global-set-key (kbd "C-o") 'jump-to-newline)
-(global-set-key (kbd "M-/") 'hippie-expand)
-(global-set-key (kbd "M-SPC") 'cycle-spacing)
