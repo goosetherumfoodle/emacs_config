@@ -83,14 +83,14 @@ currently). This can be used as a quick way to delete extra whitespace
 (global-set-key (kbd "M-SPC") 'cycle-spacing)
 #+END_SRC
 
-* text-mode configuration
+* text-mode
 
 Turn on auto-fill mode.
 #+BEGIN_SRC emacs-lisp
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 #+END_SRC
 
-* prog-mode configuration
+* prog-mode
 
 prog mode is the super class of every programming language mode
 
@@ -111,7 +111,7 @@ will:
 
   (add-hook 'prog-mode-hook 'my-prog-mode-config)
 #+END_SRC
-* org-mode configuration
+* org-mode
 
 Set keys that were supposed to be already set in org-mode, but for
 some reason were not set for me by default.
@@ -132,7 +132,7 @@ explicitly enabled. At the moment this only explicitly enables shell
      (ruby . t)))
 #+END_SRC
 
-* smart-parens-mode configuration
+* smart-parens-mode
 The default slurping and barfing commands were being captured by my
 terminal before smart parens mode could get them. This remapping
 fixed that.
@@ -144,7 +144,7 @@ fixed that.
 
   (add-hook 'smartparens-mode-hook 'my-smartparens-mode-config)
 #+END_SRC
-* web-mode configuration
+* web-mode
 I prefer web-mode to whatever the default mode was for dealing with
 html.
 
@@ -170,7 +170,8 @@ The default indenting was too much for me, so I set it to 2 spaces.
   (setq web-mode-markup-indent-offset 2)
 #+END_SRC
 
-* configuration for Ruby
+* whitespace-mode
+* config for Ruby
 
 Require enh-ruby-mode
 #+BEGIN_SRC emacs-lisp
@@ -222,7 +223,7 @@ getting rspec running in emacs.
   (ad-activate 'rspec-compile)
 #+END_SRC
 
-* configuration for Clojure
+* config for Clojure
 
 Require cider-mode. Cider-mode will evaluate clojure in a repl.
 #+BEGIN_SRC emacs-lisp
@@ -263,7 +264,7 @@ Don't automatically open the cider repl in a new window.
 #+BEGIN_SRC emacs-lisp
   (setq cider-repl-pop-to-buffer-on-connect nil)
 #+END_SRC
-* configuration for emacs lisp
+* config for emacs lisp
 
 Add hook for smartparens mode. (see clojure config for explanation)
 #+BEGIN_SRC emacs-lisp
