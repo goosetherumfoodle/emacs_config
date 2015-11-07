@@ -153,6 +153,7 @@ fixed that.
 
   (add-hook 'smartparens-mode-hook 'my-smartparens-mode-config)
 #+END_SRC
+
 * web-mode
 I prefer web-mode to whatever the default mode was for dealing with
 html.
@@ -191,6 +192,7 @@ don't remember what it does, but I'm sure it's great.
 #+BEGIN_SRC emacs-lisp
   (setq whitespace-style '(face trailing empty))
 #+END_SRC
+
 * config for Ruby
 
 Require enh-ruby-mode.
