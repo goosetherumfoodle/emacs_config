@@ -171,6 +171,16 @@ The default indenting was too much for me, so I set it to 2 spaces.
 #+END_SRC
 
 * whitespace-mode
+  For a while I thought I wanted to customize whitespace-mode and
+  start using it for programming. But I quickly realized that all I
+  really wanted to do was to automatically eliminate trailing
+  whitespace.
+
+This is about as far as I got into customizing whitespace-mode. I
+don't remember what it does, but I'm sure it's great.
+#+BEGIN_SRC emacs-lisp
+  (setq whitespace-style '(face trailing empty))
+#+END_SRC
 * config for Ruby
 
 Require enh-ruby-mode
