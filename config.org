@@ -115,10 +115,14 @@ require a final \n character at the end of the file
 #+END_SRC
 
 
-highlight characters that extend into the 80th column.
+Highlight characters in the 80th column in red. Shadows the font-face
+color set in the package.
 #+BEGIN_SRC emacs-lisp
   (add-hook 'prog-mode-hook (lambda ()
-                             (column-marker-1 80)))
+                              (defface column-marker-1 '((t (:background "red")))
+    "Face used for a column marker.  Usually a background color."
+                              :group 'faces)
+                              (column-marker-1 80)))
 #+END_SRC
 
 * org-mode
