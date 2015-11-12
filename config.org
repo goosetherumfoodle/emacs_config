@@ -102,22 +102,25 @@ numbers. I've commented this out because use-package is erroring out.
 ;;               :ensure t)
 #+END_SRC
 
-Define and then set a function to start in prog-mode. The function
-will:
-- I've commented out the relative line numbering mode because for some
-  reason when emacs starts up it can't find this function definition
-- set regular line-number mode instead
-- require a final \n character at the end of the file
-- highlight (pink) characters that extend into the 80th column
+turn on absolute line numbers. (I'm still working out the kinds with
+relative-line numbers)
 #+BEGIN_SRC emacs-lisp
-      (defun my-prog-mode-config ()
-    ;;    (linum-relative-on)
-        (linum-mode)
-        (setq require-final-newline t)
-        (column-marker-3 80))
-
-      (add-hook 'prog-mode-hook 'my-prog-mode-config)
+  (add-hook 'prog-mode-hook (lambda () (linum-mode)))
 #+END_SRC
+
+require a final \n character at the end of the file
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'prog-mode-hook (lambda ()
+                              (setq require-final-newline t)))
+#+END_SRC
+
+
+highlight characters that extend into the 80th column.
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'prog-mode-hook (lambda ()
+                             (column-marker-1 80)))
+#+END_SRC
+
 * org-mode
 
 Set keys that were supposed to be already set in org-mode, but for
