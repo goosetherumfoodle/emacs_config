@@ -108,13 +108,15 @@ will:
   reason when emacs starts up it can't find this function definition
 - set regular line-number mode instead
 - require a final \n character at the end of the file
+- highlight (pink) characters that extend into the 80th column
 #+BEGIN_SRC emacs-lisp
-    (defun my-prog-mode-config ()
-  ;;    (linum-relative-on)
-      (linum-mode)
-      (setq require-final-newline t))
+      (defun my-prog-mode-config ()
+    ;;    (linum-relative-on)
+        (linum-mode)
+        (setq require-final-newline t)
+        (column-marker-3 80))
 
-    (add-hook 'prog-mode-hook 'my-prog-mode-config)
+      (add-hook 'prog-mode-hook 'my-prog-mode-config)
 #+END_SRC
 * org-mode
 
