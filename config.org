@@ -166,7 +166,7 @@ single-quote. This is annoying because I only use smart-parens for
 lisps, and lips use unpaired single-quotes to indicate data. So I want
 to disable that autocompletion.
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'smart-parens-mode-hook (lambda (sp-pair "'" nil :actions :rem)))
+  (eval-after-load "smartparens" '(sp-pair "'" nil :actions :rem))
 #+END_SRC
 
 * web-mode
