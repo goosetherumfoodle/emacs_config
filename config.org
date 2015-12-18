@@ -148,6 +148,15 @@ explicitly enabled. At the moment this only explicitly enables shell
      (ruby . t)))
 #+END_SRC
 
+Disable the warnings that prompt you when you're running elisp
+source-blocks within org-mode
+
+#+BEGIN_SRC emacs-lisp
+  (defun my-org-confirm-babel-evaluate (lang body)
+    (not (string= lang "emacs-lisp")))  ; don't query for elisp evaluation
+  (setq org-confirm-babel-evaluate 'my-org-confirm-babel-evaluate)
+#+END_SRC
+
 * smart-parens-mode
 The default slurping and barfing commands were being captured by my
 terminal before smart parens mode could get them. This remapping
