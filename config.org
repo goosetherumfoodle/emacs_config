@@ -50,6 +50,11 @@ obviously requires this directory to be in place.
         `((".*" ,(concat user-emacs-directory "auto-save/") t)))
 #+END_SRC
 
+set eww as the default browser to open links with
+#+BEGIN_SRC emacs-lisp
+  (setq browse-url-browser-function 'eww-browse-url)
+#+END_SRC
+
 * global keybindings
 
 Use helm for function search
@@ -125,6 +130,12 @@ color set in the package.
                               (column-marker-1 80)))
 #+END_SRC
 
+undo-tree mode makes it easier to navigate the undo history as a tree
+structure.
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'prog-mode-hook 'undo-tree-mode)
+#+END_SRC
+
 * org-mode
 
 Set keys that were supposed to be already set in org-mode, but for
@@ -157,7 +168,14 @@ source-blocks within org-mode
   (setq org-confirm-babel-evaluate 'my-org-confirm-babel-evaluate)
 #+END_SRC
 
+undo-tree mode makes it easier to navigate the undo history as a tree
+structure.
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'org-mode-hook 'undo-tree-mode)
+#+END_SRC
+
 * smart-parens-mode
+
 The default slurping and barfing commands were being captured by my
 terminal before smart parens mode could get them. This remapping
 fixed that.
@@ -172,10 +190,15 @@ fixed that.
 
 By default smartparens completes single-quotes with a matching
 single-quote. This is annoying because I only use smart-parens for
-lisps, and lips use unpaired single-quotes to indicate data. So I want
+lisps, and lisps use unpaired single-quotes to indicate data. So I want
 to disable that autocompletion.
 #+BEGIN_SRC emacs-lisp
   (eval-after-load "smartparens" '(sp-pair "'" nil :actions :rem))
+#+END_SRC
+
+Use strict-mode.
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'smartparens-mode-hook 'smartparens-strict-mode)
 #+END_SRC
 
 * web-mode
