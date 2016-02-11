@@ -459,6 +459,13 @@ Start smartparens-mode with scheme.
   (add-hook 'scheme-mode-hook 'smartparens-mode)
 #+END_SRC
 
+* config for coffeescript
+
+set coffee-mode to use a tab width of 2 spaces
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'coffee-mode-hook (lambda () (setq coffee-tab-width 2)))
+#+END_SRC
+
 * custom functions
 
 I wrote this because I missed Vi's "o" button which would create an
