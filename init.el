@@ -8,10 +8,6 @@
   (scroll-bar-mode -1)
   (tooltip-mode -1))
 
-;; Load to blank buffer
-(setq inhibit-startup-message t)
-(setq initial-scratch-message "")
-
 ;; copied from MELPA site
 ;; configure emacs package manager to include melpa packages
 (require 'package)
