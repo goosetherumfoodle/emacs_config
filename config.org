@@ -90,9 +90,10 @@ currently). This can be used as a quick way to delete extra whitespace
 #+END_SRC
 
 Sets M-m to jump to a char. Hitting the char mulitple times will keep
-moving point to the next
+moving point to the next. C-M-m jumps backwards.
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "M-m") 'iy-go-to-char)
+  (global-set-key (kbd "C-M-m") 'iy-go-to-char-backward)
 #+END_SRC
 
 * text-mode
