@@ -107,6 +107,11 @@ Turn on auto-fill mode.
 
 prog mode is the super class of every programming language mode
 
+don't allow indenting to insert tabs
+#+BEGIN_SRC
+(setq-default indent-tabs-mode nil)
+#+END_SRC
+
 require the linum-relative package which enables relative line
 numbers. I've commented this out because use-package is erroring out.
 #+BEGIN_SRC emacs-lisp
@@ -203,6 +208,16 @@ to disable that autocompletion.
   (eval-after-load "smartparens" '(sp-pair "'" nil :actions :rem))
 #+END_SRC
 
+Also don't like it completing double-quotes
+#+BEGIN_SRC emacs-lisp
+  (eval-after-load "smartparens" '(sp-pair "\"" nil :actions :rem))
+#+END_SRC
+
+Also diable to the auto-completion of `
+#+BEGIN_SRC emacs-lisp
+  (eval-after-load "smartparens" '(sp-pair "`" nil :actions :rem))
+#+END_SRC
+
 Use strict-mode.
 #+BEGIN_SRC emacs-lisp
   (add-hook 'smartparens-mode-hook 'smartparens-strict-mode)
@@ -229,11 +244,18 @@ Set various file-types to invoke web-mode
   (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
 #+END_SRC
 
 The default indenting was too much for me, so I set it to 2 spaces.
 #+BEGIN_SRC emacs-lisp
   (setq web-mode-attr-indent-offset 2)
+#+END_SRC
+
+set "jsx" as content type with .js and .jsx files
+#+BEGIN_SRC emacs-lisp
+  (setq web-mode-content-types-alist
+    '(("jsx" . "\\.js[x]?\\'")))
 #+END_SRC
 
 * whitespace-mode
