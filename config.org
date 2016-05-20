@@ -96,6 +96,11 @@ moving point to the next. C-M-m jumps backwards.
   (global-set-key (kbd "C-M-m") 'iy-go-to-char-backward)
 #+END_SRC
 
+Use C-i to switch windows.
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-,") 'other-window)
+#+END_SRC
+
 * text-mode
 
 Turn on auto-fill mode.
