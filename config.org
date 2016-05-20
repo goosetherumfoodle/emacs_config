@@ -227,6 +227,13 @@ Use strict-mode.
 I prefer web-mode to whatever the default mode was for dealing with
 html.
 
+Configure pairing and auto-closing.
+#+BEGIN_SRC emacs-lisp
+  (setq web-mode-enable-auto-closing t)
+  (setq web-mode-enable-auto-pairing t)
+  (setq web-mode-auto-close-style 2)
+#+END_SRC
+
 Require web-mode. I've commented this out because use-package is
 erroring out
 #+BEGIN_SRC emacs-lisp
