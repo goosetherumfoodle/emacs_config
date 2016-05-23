@@ -514,6 +514,17 @@ set coffee-mode to use a tab width of 2 spaces
   (setq js-indent-level 2)
 #+END_SRC
 
+  start flycheck in javascript
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'js2-mode-hook 'flycheck-mode)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (add-to-list
+     'auto-mode-alist
+     `(,(rx ".js") . js2-mode))
+#+END_SRC
+
 * json
 
 pretty print json files
