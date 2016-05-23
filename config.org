@@ -507,6 +507,24 @@ set coffee-mode to use a tab width of 2 spaces
   (add-hook 'coffee-mode-hook (lambda () (setq coffee-tab-width 2)))
 #+END_SRC
 
+* javascript
+
+  set indentation to 2 spaces
+#+BEGIN_SRC emacs-lisp
+  (setq js-indent-level 2)
+#+END_SRC
+
+* json
+
+pretty print json files
+#+BEGIN_SRC emacs-lisp
+  (setq json-encoding-pretty-print t)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (setq json-reformat:indent-width 2)
+#+END_SRC
+
 * custom functions
 
 I wrote this because I missed Vi's "o" button which would create an
