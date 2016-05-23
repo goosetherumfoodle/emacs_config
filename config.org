@@ -223,7 +223,7 @@ Also don't like it completing double-quotes
   (eval-after-load "smartparens" '(sp-pair "\"" nil :actions :rem))
 #+END_SRC
 
-Also diable to the auto-completion of `
+Also disable the auto-completion of `
 #+BEGIN_SRC emacs-lisp
   (eval-after-load "smartparens" '(sp-pair "`" nil :actions :rem))
 #+END_SRC
