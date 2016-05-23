@@ -155,6 +155,11 @@ structure.
 
 * org-mode
 
+  ensure that the C-, doesn't get over-written by org-mode
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'org-mode-hook (lambda () (local-set-key (kbd "C-,") 'other-window)))
+#+END_SRC
+
 Set keys that were supposed to be already set in org-mode, but for
 some reason were not set for me by default.
 #+BEGIN_SRC emacs-lisp
