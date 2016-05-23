@@ -524,6 +524,13 @@ set coffee-mode to use a tab width of 2 spaces
   (add-hook 'js2-mode-hook 'flycheck-mode)
 #+END_SRC
 
+  use smartparens mode
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'js2-mode-hook 'smartparens-strict-mode)
+#+END_SRC
+
+
+use js2-mode instead of javascript mode
 #+BEGIN_SRC emacs-lisp
   (add-to-list
      'auto-mode-alist
