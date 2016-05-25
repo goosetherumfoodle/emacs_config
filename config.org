@@ -239,9 +239,10 @@ html.
 
 Configure pairing and auto-closing.
 #+BEGIN_SRC emacs-lisp
-  (setq web-mode-enable-auto-closing t)
-  (setq web-mode-enable-auto-pairing t)
-  (setq web-mode-auto-close-style 2)
+    (setq web-mode-enable-auto-closing t)
+    (setq web-mode-enable-auto-pairing t)
+    (setq web-mode-auto-close-style 2)
+    (setq web-mode-code-indent-offset 2)
 #+END_SRC
 
 Require web-mode. I've commented this out because use-package is
@@ -534,7 +535,7 @@ use js2-mode instead of javascript mode
 #+BEGIN_SRC emacs-lisp
   (add-to-list
      'auto-mode-alist
-     `(,(rx ".js") . js2-mode))
+     `(,(rx ".js$") . js2-mode))
 #+END_SRC
 
 * json
