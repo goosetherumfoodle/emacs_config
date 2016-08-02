@@ -113,8 +113,8 @@ Turn on auto-fill mode.
 prog mode is the super class of every programming language mode
 
 don't allow indenting to insert tabs
-#+BEGIN_SRC
-(setq-default indent-tabs-mode nil)
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'prog-mode-hook (lambda () (setq indent-tabs-mode nil)))
 #+END_SRC
 
 require the linum-relative package which enables relative line
