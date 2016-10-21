@@ -513,6 +513,43 @@ set coffee-mode to use a tab width of 2 spaces
   (add-hook 'coffee-mode-hook (lambda () (setq coffee-tab-width 2)))
 #+END_SRC
 
+* term
+
+This shadows the function that gets called in term-alert.el when a
+command has returned in term/ansi-term. Just to replace the alert
+function (which writes a message to the minibuffer) with a command
+that sends an email. Useful for notifications when long-running
+commands complete.
+
+#+BEGIN_SRC emacs-lisp
+  (require 'term-alert)
+
+  (defun goose/send-message (msg)
+      (mail)
+      (mail-to) (insert goose/email)      ; my email address
+      (mail-subject) (insert "[EMACS] command completion")
+      (mail-text) (insert msg)
+      (mail-send)
+      (kill-this-buffer))
+
+  (defun term-alert--done-callback (_c _a)
+    "Shadowed command from term-alert.el."
+    (unless term-alert--command-done-time
+      (setq term-alert--command-done-time (current-time)))
+    (when term-alert-mode
+      (when (not (eq term-alert--count 0))
+        (goose/send-message (format
+                             "Command completed in %s%s"
+                             (buffer-name)
+                             (if term-alert--command-started-time
+                                 (format " (runtime %s)" (term-alert--get-runtime))
+                               "")))
+        (when (> term-alert--count 0)
+          (term-alert--set-count (- term-alert--count 1))))))
+
+
+#+END_SRC
+
 * javascript
 
   set indentation to 2 spaces
