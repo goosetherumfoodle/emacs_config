@@ -205,7 +205,8 @@ fixed that.
   (defun my-smartparens-mode-config ()
     "map slurping and barfing (because the default C-M-<right>/<left> were being capture by the terminal)"
     (local-set-key (kbd "M-<right>") 'sp-backward-barf-sexp)
-    (local-set-key (kbd "M-<left>") 'sp-backward-slurp-sexp))
+    (local-set-key (kbd "M-<left>") 'sp-backward-slurp-sexp)
+    (local-set-key (kbd "M-<backspace>") 'backward-kill-word))
 
   (add-hook 'smartparens-mode-hook 'my-smartparens-mode-config)
 #+END_SRC
