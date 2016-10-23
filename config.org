@@ -516,21 +516,42 @@ set coffee-mode to use a tab width of 2 spaces
 
 * term-alert
 
-Set term-alert to call this send-message function, which sends an
-email notification. I set this up to be notified when long-running
-commands complete (like in a build process).
+  These commands provide wrappers around the term-alert.el package,
+  which allows for an alert to be sent after commands complete in term-mode.
 
 #+BEGIN_SRC emacs-lisp
-  (require 'term-alert)
+  (use-package "term-alert" :ensure t)
+#+END_SRC
 
-  (defun goose/send-message ()
+  Define two notification commands. They are both expecting to be run in
+  a terminal mode. `term-alert-function` should be a buffer local
+  variable, so these set it each time they're called.
+
+#+BEGIN_SRC emacs-lisp
+  (defun sms-alert-on-cmd-completion ()
+    (interactive)
+    (setq term-alert-function 'gf/sms-notify-term-alert)
+    (term-alert-next-command-toggle 1))
+
+  (defun email-alert-on-cmd-completion ()
+    (interactive)
+    (setq term-alert-function 'gf/email-notify-term-alert)
+    (term-alert-next-command-toggle 1))
+
+#+END_SRC
+
+  Functions to be wrapped in the above commands.
+
+#+BEGIN_SRC emacs-lisp
+  (defun gf/email-notify-term-alert ()
       (mail)
       (mail-to) (insert goose/email)      ; my email address
       (mail-subject) (insert "[EMACS] command completion")
       (mail-send)
       (kill-this-buffer))
 
-  (set-default 'term-alert-function 'goose/send-message)
+  (defun gf/sms-notify-term-alert ()
+    (gf/sms-notification "Term command completed."))
 #+END_SRC
 
 * javascript
@@ -590,9 +611,9 @@ pretty print json files
     (concat "Basic " (base64-encode-string (concat username ":" password) t)))
 #+END_SRC
 
-  Core function that sends a request to the Twilio API. It expects an
-  SID and TOKEN from a Twilio account. The FROM-PHONE also must be
-  registered with Twilio.
+  Core function that sends a request to the Twilio API. `sid` and
+  `token` must be aquired from [[www.twilio.com][Twilio]], and
+  `from-phone` must be verified.
 #+BEGIN_SRC emacs-lisp
   (defun gf/twilio-send-text (sid token from-phone to-phone msg)
     (deferred:$
@@ -621,16 +642,26 @@ pretty print json files
   minibuffer for a phone number and message to send an SMS
   message.
   #+BEGIN_SRC emacs-lisp
-  (defun send-text ()
-    (interactive)
-    (let ((to-phone (read-from-minibuffer "Recipient's phone number: "))
-          (msg (read-from-minibuffer "Text message: ")))
+    (defun send-text ()
+      (interactive)
+      (let ((to-phone (read-from-minibuffer "Recipient's phone number: "))
+            (msg (read-from-minibuffer "Text message: ")))
+        (gf/twilio-send-text env/twilio-sid
+                             env/twilio-token
+                             env/from-phone
+                             to-phone
+                             msg)))
+  #+END_SRC
+
+   Generic command for sending an sms message to `env/my-phone`
+
+  #+BEGIN_SRC emacs-lisp
+    (defun gf/sms-notification (msg)
       (gf/twilio-send-text env/twilio-sid
                            env/twilio-token
                            env/from-phone
-                           to-phone
-                           msg)))
-
+                           env/my-phone
+                           msg))
 
   #+END_SRC
 
