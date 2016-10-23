@@ -1,6 +1,6 @@
 * general config
 
-Make org-mode the defualt file mode
+Make org-mode the default file mode
 #+BEGIN_SRC emacs-lisp
   (setq-default major-mode 'org-mode)
 #+END_SRC
