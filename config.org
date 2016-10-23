@@ -569,6 +569,71 @@ pretty print json files
   (setq json-reformat:indent-width 2)
 #+END_SRC
 
+* Twilio sms
+
+  Ensure that the json.el package is present, which the request.el
+  library uses to parse json responses.
+  #+BEGIN_SRC emacs-lisp
+    (use-package "json" :ensure t)
+  #+END_SRC
+
+  Ensure that the request-deferred.el package is present, which wraps
+  request.el in a deferred function from deferred.el
+  #+BEGIN_SRC emacs-lisp
+    (use-package "request-deferred" :ensure t)
+  #+END_SRC
+
+  Helper function used to generate the string expected by the
+  authentication header in using http basic authenticaiton.
+#+BEGIN_SRC emacs-lisp
+  (defun gf/build-auth-hash (username password)
+    (concat "Basic " (base64-encode-string (concat username ":" password) t)))
+#+END_SRC
+
+  Core function that sends a request to the Twilio API. It expects an
+  SID and TOKEN from a Twilio account. The FROM-PHONE also must be
+  registered with Twilio.
+#+BEGIN_SRC emacs-lisp
+  (defun gf/twilio-send-text (sid token from-phone to-phone msg)
+    (deferred:$
+      (request-deferred (concat "https://api.twilio.com/2010-04-01/Accounts/" sid "/Messages.json")
+                        :parser 'json-read
+                        :data `((To . ,to-phone)
+                                (From . ,from-phone)
+                                (Body . ,msg))
+                        :headers `((authorization . ,(gf/build-auth-hash sid token))))
+      (deferred:nextc it
+        (lambda (raw-response)
+          (let* ((response (request-response-data raw-response))
+                 (status (request-response-symbol-status raw-response))
+                 (oopsie (request-response-error-thrown raw-response))
+                 (err-msg (cdr (assoc 'message response))))
+            (if oopsie (message "Twilio connection error: %S, %S" oopsie err-msg)
+              (message "Twilio SMS status: %S" status)))))
+      (deferred:error it
+        (lambda (err)
+          (message "Request error: %S" err)))))
+
+
+#+END_SRC
+
+  Command wrapping the `gf/twilio-send-text` function. Queries user in
+  minibuffer for a phone number and message to send an SMS
+  message.
+  #+BEGIN_SRC emacs-lisp
+  (defun send-text ()
+    (interactive)
+    (let ((to-phone (read-from-minibuffer "Recipient's phone number: "))
+          (msg (read-from-minibuffer "Text message: ")))
+      (gf/twilio-send-text env/twilio-sid
+                           env/twilio-token
+                           env/from-phone
+                           to-phone
+                           msg)))
+
+
+  #+END_SRC
+
 * custom functions
 
 I wrote this because I missed Vi's "o" button which would create an
