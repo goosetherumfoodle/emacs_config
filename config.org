@@ -465,6 +465,111 @@ Don't automatically open the cider repl in a new window.
   (setq cider-repl-pop-to-buffer-on-connect nil)
 #+END_SRC
 
+** cider-sms-all-tests
+
+   Command to run all the tests in a cider session, and send the
+   results as an sms message.
+
+*** requirements
+
+   #+BEGIN_SRC emacs-lisp
+    (use-package "dash" :ensure t)
+    (use-package "cider" :ensure t)
+   #+END_SRC
+
+*** command
+
+    Runs all tests in all namespaces connected to the current cider
+    session. Sends an SMS notification to the number specified by
+    `gf/sms-notification`. Contains a summary of results, and files
+    with linenumbers where failures occured in the test suite.
+
+    The lambda gets called repeatedly by the sub-process, but doesn't
+    seem to have any useful data until `results` is present in `response`.
+
+    Was written for a long-running test suite, so no command was
+    written for running a single tests, or a single namespace. To
+    instead run a single namespace, change `"op" "test-all"` to `"op"
+    "test"`. And change `"ns" nil` to `"ns" <namespace>`.
+
+    #+BEGIN_SRC emacs-lisp
+      (defun cider-sms-all-tests ()
+        "Runs all namespaces in the current running nrepl session, and sends a text
+        message with the results"
+        (interactive)
+        (cider-nrepl-send-request `("op"      "test-all"
+                                    "ns"      nil
+                                    "tests"   nil
+                                    "load?"   "true"
+                                    "session" ,(cider-current-session))
+                                  (lambda (response)
+                                    (nrepl-dbind-response response (summary results)
+                                      (if results
+                                          (progn
+                                            (let ((total (nrepl-dict-get summary "test"))
+                                                  (pass (nrepl-dict-get summary "pass"))
+                                                  (fail (nrepl-dict-get summary "fail"))
+                                                  (failure-details (gf/file-line-context results)))
+                                              (gf/sms-notification
+                                               (gf/fmt-results-and-failures
+                                                total
+                                                pass
+                                                fail
+                                                failure-details)))))))))
+    #+END_SRC
+
+*** formatting
+
+    Format the test results into a string for the SMS message.
+
+#+BEGIN_SRC emacs-lisp
+  (defun gf/fmt-results-and-failures (total pass fail failure-details)
+    "Join the test summary and failures"
+    (string-join
+     (cons (gf/fmt-results total pass fail)
+           (list (gf/fmt-failures failure-details)))
+     "\n"))
+
+  (defun gf/fmt-results (total pass fail)
+    "Format test summary"
+    (format "Cider Test Results: Total: %s, Passing: %s, Failing: %s" total pass fail))
+
+  (defun gf/fmt-failures (file-line-contexts)
+    "Format a list of failures as <file>:<line-number>"
+    (string-join
+     (cons "Failed At:"
+           (-map (lambda (fl-ln-cxt)
+                   (format "%s:%s" (car fl-ln-cxt) (cadr fl-ln-cxt)))
+                 file-line-contexts))
+     "\n"))
+#+END_SRC
+
+*** data accessors/constructors
+
+    The `nrepl-dict.el` package provides a dict datatype that's
+    returned by the cider nrepl client.
+
+#+BEGIN_SRC emacs-lisp
+  (defun gf/file-line-context (results)
+    "Walk down the results tree to get file, line, and context, of each failure"
+    (-flatten-n 2 (nrepl-dict-map
+                   (lambda (ns vars)
+                     (nrepl-dict-map
+                      (lambda (_var tests)
+                        (let* ((problems (cider-test-non-passing tests))
+                               (count (length problems)))
+                          (-map 'gf/problem->file-line-context problems)))
+                      vars))
+                   results)))
+
+  (defun gf/problem->file-line-context (problem)
+    "Build a list of `(file line context)`"
+    (let ((file (nrepl-dict-get problem "file"))
+          (line (nrepl-dict-get problem "line"))
+          (context (nrepl-dict-get problem "context")))
+      (list file line context)))
+#+END_SRC
+
 * config for emacs lisp
 
 Add hook for smartparens mode. (see clojure config for explanation)
@@ -642,7 +747,7 @@ pretty print json files
   minibuffer for a phone number and message to send an SMS
   message.
   #+BEGIN_SRC emacs-lisp
-    (defun send-text ()
+    (defun send-sms ()
       (interactive)
       (let ((to-phone (read-from-minibuffer "Recipient's phone number: "))
             (msg (read-from-minibuffer "Text message: ")))
