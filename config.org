@@ -59,13 +59,15 @@ set eww as the default browser to open links with
 
 Use helm for function search
 #+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "M-x") 'helm-M-x)
+  (use-package "helm" :ensure t)
+  (global-set-key (kbd "M-x") 'helm-M-x)
 #+END_SRC
 
 Set the magit bindings recommended in the magit tutorial
 #+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-x g") 'magit-status)
-(global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
+  (use-package "magit" :ensure t)
+  (global-set-key (kbd "C-x g") 'magit-status)
+  (global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
 #+END_SRC
 
 I missed Vi's "o" button which would jump to the next line without
@@ -140,6 +142,7 @@ require a final \n character at the end of the file
 Highlight characters in the 80th column in red. Shadows the font-face
 color set in the package.
 #+BEGIN_SRC emacs-lisp
+  (use-package "column-marker" :ensure t)
   (add-hook 'prog-mode-hook (lambda ()
                               (defface column-marker-1 '((t (:background "red")))
     "Face used for a column marker.  Usually a background color."
@@ -150,6 +153,7 @@ color set in the package.
 undo-tree mode makes it easier to navigate the undo history as a tree
 structure.
 #+BEGIN_SRC emacs-lisp
+  (use-package "undo-tree" :ensure t)
   (add-hook 'prog-mode-hook 'undo-tree-mode)
 #+END_SRC
 
@@ -197,6 +201,11 @@ structure.
 #+END_SRC
 
 * smart-parens-mode
+
+#+BEGIN_SRC emacs-lisp
+  (use-package "smartparens" :ensure t)
+
+#+END_SRC
 
 The default slurping and barfing commands were being captured by my
 terminal before smart parens mode could get them. This remapping
@@ -293,8 +302,7 @@ don't remember what it does, but I'm sure it's great.
 
 Require enh-ruby-mode.
 #+BEGIN_SRC emacs-lisp
-;;  (use-package enh-ruby-mode
-;;               :ensure t)
+  (use-package "enh-ruby-mode" :ensure t)
 #+END_SRC
 
 Use enh-ruby-mode instead of ruby-mode. Among other things, it has
@@ -440,6 +448,7 @@ mini-buffer.
 Hook for rainbow-delimiters mode. Rainbow delimiters colors parens
 based on nesting level.
 #+BEGIN_SRC emacs-lisp
+  (use-package "rainbow-delimiters" :ensure t)
   (add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)
 #+END_SRC
 
