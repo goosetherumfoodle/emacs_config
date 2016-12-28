@@ -606,7 +606,9 @@ On saving, byte compile any .el file that already has a corrisponding
 forgetting to byte-compile it, and not having the changes take
 effect.
 #+BEGIN_SRC emacs-lisp
-(add-hook 'after-save-hook 'byte-compile-current-buffer)
+  (add-hook 'prog-mode-hook
+            (lambda ()
+               (add-hook 'after-save-hook 'byte-compile-current-buffer nil 'make-it-local)))
 #+END_SRC
 
 * config for scheme
