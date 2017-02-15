@@ -474,6 +474,13 @@ Don't automatically open the cider repl in a new window.
   (setq cider-repl-pop-to-buffer-on-connect nil)
 #+END_SRC
 
+use clojure-refactor package, and set it to use dot prefix notation in requirements
+
+#+BEGIN_SRC emacs-lisp
+  (use-package "clj-refactor" :ensure t)
+  (setq cljr-favor-prefix-notation nil)
+#+END_SRC
+
 ** cider-sms-all-tests
 
    Command to run all the tests in a cider session, and send the
