@@ -1,5 +1,10 @@
 * general config
 
+Use dark theme
+#+BEGIN_SRC emacs-lisp
+  (load-theme 'tango-dark)
+#+END_SRC
+
 Make org-mode the default file mode
 #+BEGIN_SRC emacs-lisp
   (setq-default major-mode 'org-mode)
@@ -62,7 +67,7 @@ set eww as the default browser to open links with
   (use-package "restart-emacs" :ensure t)
   (use-package "sicp" :ensure t)
   (use-package "request-deferred" :ensure t)
-  (use-package "column-marker" :ensure t)
+;;  (use-package "column-marker" :ensure t)
   (use-package "undo-tree" :ensure t)
   (use-package "term-alert" :ensure t)
   (use-package "cider" :ensure t)
@@ -155,12 +160,12 @@ require a final \n character at the end of the file
 Highlight characters in the 80th column in red. Shadows the font-face
 color set in the package.
 #+BEGIN_SRC emacs-lisp
-  (use-package "column-marker" :ensure t)
-  (add-hook 'prog-mode-hook (lambda ()
-                              (defface column-marker-1 '((t (:background "red")))
-    "Face used for a column marker.  Usually a background color."
-                              :group 'faces)
-                              (column-marker-1 80)))
+;;  (use-package "column-marker" :ensure t)
+;;  (add-hook 'prog-mode-hook (lambda ()
+;;                              (defface column-marker-1 '((t (:background "red")))
+;;    "Face used for a column marker.  Usually a background color."
+;;                              :group 'faces)
+;;                              (column-marker-1 80)))
 #+END_SRC
 
 undo-tree mode makes it easier to navigate the undo history as a tree
@@ -194,7 +199,7 @@ explicitly enabled. At the moment this only explicitly enables shell
 #+BEGIN_SRC emacs-lisp
   (org-babel-do-load-languages
    'org-babel-load-languages
-   '((sh . t)
+   '((shell . t)
      (ruby . t)))
 #+END_SRC
 
