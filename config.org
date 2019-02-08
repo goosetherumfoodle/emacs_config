@@ -63,14 +63,18 @@ set eww as the default browser to open links with
 ** required packages
 
 #+BEGIN_SRC emacs-lisp
-  (use-package "intero" :ensure t)
   (use-package "restart-emacs" :ensure t)
   (use-package "sicp" :ensure t)
   (use-package "request-deferred" :ensure t)
-;;  (use-package "column-marker" :ensure t)
   (use-package "undo-tree" :ensure t)
   (use-package "term-alert" :ensure t)
   (use-package "cider" :ensure t)
+#+END_SRC
+
+Expired packages:
+
+#+BEGIN_SRC emacs-lisp
+;;  (use-package "column-marker" :ensure t)
 #+END_SRC
 
 * macOS
@@ -728,6 +732,15 @@ use js2-mode instead of javascript mode
      `(,(rx ".js$") . js2-mode))
 #+END_SRC
 
+* haskell
+
+Intero-mode is a nice nigh-IDE for haskell. But don't start it
+automatically in haskell files b/c sometimes it can require quite a
+bit of setup.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package "intero" :ensure t)
+#+END_SRC
 * json
 
 pretty print json files
