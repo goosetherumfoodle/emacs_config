@@ -73,6 +73,14 @@ set eww as the default browser to open links with
   (use-package "cider" :ensure t)
 #+END_SRC
 
+* macOS
+
+for powerbooks, use the command-key as meta, and the option-key as ctrl
+#+BEGIN_SRC emacs-lisp
+  (when (eq system-type 'darwin)
+     (setq mac-option-modifier 'control)
+     (setq mac-command-modifier 'meta))
+#+END_SRC
 * global keybindings
 
 Use helm for function search
