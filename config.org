@@ -60,15 +60,20 @@ set eww as the default browser to open links with
   (setq browse-url-browser-function 'eww-browse-url)
 #+END_SRC
 
-** required packages
+** required
+packages
 
 #+BEGIN_SRC emacs-lisp
   (use-package "restart-emacs" :ensure t)
+  (use-package "vue-mode" :ensure t)
   (use-package "sicp" :ensure t)
   (use-package "request-deferred" :ensure t)
   (use-package "undo-tree" :ensure t)
   (use-package "term-alert" :ensure t)
   (use-package "cider" :ensure t)
+  (use-package "helm-ag" :ensure t)
+  (use-package "mustache-mode" :ensure t)
+  (use-package "groovy-mode" :ensure t)
 #+END_SRC
 
 Expired packages:
@@ -79,12 +84,14 @@ Expired packages:
 
 * macOS
 
-for powerbooks, use the command-key as meta, and the option-key as ctrl
+for macbooks, use the command-key as meta, and the option-key as ctrl
+
 #+BEGIN_SRC emacs-lisp
   (when (eq system-type 'darwin)
      (setq mac-option-modifier 'control)
      (setq mac-command-modifier 'meta))
 #+END_SRC
+
 * global keybindings
 
 Use helm for function search
@@ -741,6 +748,15 @@ bit of setup.
 #+BEGIN_SRC emacs-lisp
   (use-package "intero" :ensure t)
 #+END_SRC
+
+* Scala
+
+generic scala mode, not super useful.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package "scala-mode" :ensure t)
+#+END_SRC
+
 * json
 
 pretty print json files
