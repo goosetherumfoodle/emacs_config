@@ -74,6 +74,7 @@ packages
   (use-package "helm-ag" :ensure t)
   (use-package "mustache-mode" :ensure t)
   (use-package "groovy-mode" :ensure t)
+  (use-package "leerzeichen" :ensure t)   ; a better whitespace mode
 #+END_SRC
 
 Expired packages:
@@ -98,13 +99,6 @@ Use helm for function search
 #+BEGIN_SRC emacs-lisp
   (use-package "helm" :ensure t)
   (global-set-key (kbd "M-x") 'helm-M-x)
-#+END_SRC
-
-Set the magit bindings recommended in the magit tutorial
-#+BEGIN_SRC emacs-lisp
-  (use-package "magit" :ensure t)
-  (global-set-key (kbd "C-x g") 'magit-status)
-  (global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
 #+END_SRC
 
 I missed Vi's "o" button which would jump to the next line without
@@ -766,6 +760,20 @@ pretty print json files
 
 #+BEGIN_SRC emacs-lisp
   (setq json-reformat:indent-width 2)
+#+END_SRC
+
+* git
+
+  Set the magit bindings recommended in the magit tutorial
+#+BEGIN_SRC emacs-lisp
+  (use-package "magit" :ensure t)
+  (global-set-key (kbd "C-x g") 'magit-status)
+  (global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
+#+END_SRC
+
+require package for manipulating github pull requests from within magit
+#+BEGIN_SRC emacs-lisp
+  (use-package "forge" :ensure t)
 #+END_SRC
 
 * Twilio sms
