@@ -60,10 +60,19 @@ set eww as the default browser to open links with
   (setq browse-url-browser-function 'eww-browse-url)
 #+END_SRC
 
+remap goto-line `M-g M-g` to preview the line first
+#+BEGIN_SRC emacs-lisp
+  (use-package "goto-line-preview" :ensure t)
+  (global-set-key [remap goto-line] 'goto-line-preview)
+#+END_SRC
+
 ** required
 packages
 
 #+BEGIN_SRC emacs-lisp
+  (use-package "neotree" :ensure t)
+  (use-package "simple-httpd" :ensure t)
+  (use-package "yaml-mode" :ensure t)
   (use-package "restart-emacs" :ensure t)
   (use-package "vue-mode" :ensure t)
   (use-package "sicp" :ensure t)
@@ -75,6 +84,7 @@ packages
   (use-package "mustache-mode" :ensure t)
   (use-package "groovy-mode" :ensure t)
   (use-package "leerzeichen" :ensure t)   ; a better whitespace mode
+  (use-package "all-the-icons" :ensure t)
 #+END_SRC
 
 Expired packages:
@@ -751,6 +761,43 @@ generic scala mode, not super useful.
   (use-package "scala-mode" :ensure t)
 #+END_SRC
 
+* java
+** meghanada
+   Experimenting with this mode.
+
+   The following are from https://github.com/mopemope/meghanada-emacs/blob/master/README.md
+
+  meghanada-mode interfaces with a meghanada server, similar to
+  intero-mode for haskell (I'm assuming).
+#+BEGIN_SRC emacs-lisp
+  (use-package "meghanada" :ensure t)
+#+END_SRC
+
+dependencies of meghanada. Specified here: https://github.com/mopemope/meghanada-emacs
+#+BEGIN_SRC emacs-lisp
+  (use-package "cl-lib" :ensure t)
+  (use-package "yasnippet" :ensure t)
+  (use-package "company" :ensure t)
+  (use-package "flycheck" :ensure t)
+#+END_SRC
+
+- use meghanada in java-mode
+- enable flycheck
+- set indentation levels
+- set locations of java and maven
+- autoformat code on save
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'java-mode-hook
+	    (lambda ()
+	      (meghanada-mode t)
+	      (flycheck-mode +1)
+	      (setq c-basic-offset 4)
+	      (setq meghanada-java-path "java")
+	      (setq meghanada-maven-path "mvn")
+	      (add-hook 'before-save-hook 'meghanada-code-beautify-before-save)))
+#+END_SRC
+
 * json
 
 pretty print json files
@@ -776,6 +823,36 @@ require package for manipulating github pull requests from within magit
   (use-package "forge" :ensure t)
 #+END_SRC
 
+* RSS
+
+use elfeed for rss, and elfeed-org to organize rss feeds in an org
+file
+#+BEGIN_SRC emacs-lisp
+  (use-package "elfeed" :ensure t)
+  (use-package "elfeed-org" :ensure t)
+#+END_SRC
+
+Initialize elfeed-org. This hooks up elfeed-org to read the configuration when elfeed
+is started with `M-x elfeed`
+#+BEGIN_SRC emacs-lisp
+(elfeed-org)
+#+END_SRC
+
+Specify a number of files containing elfeed configuration. If not set
+then the location below is used. Note: The customize interface is also
+supported.
+#+BEGIN_SRC emacs-lisp
+(setq rmh-elfeed-org-files (list "~/.emacs.d/elfeed.org"))
+#+END_SRC
+
+* eshell
+
+  eshell can mess up some commands that are expecting piped input. Add
+  them to this list if they don't work as expected with pipes.
+
+  #+BEGIN_SRC emacs-lisp
+    (eval-after-load "esh-proc" '(add-to-list 'eshell-needs-pipe "entr"))
+  #+END_SRC
 * Twilio sms
 
   Ensure that the json.el package is present, which the request.el
