@@ -222,7 +222,7 @@ explicitly enabled. At the moment this only explicitly enables shell
 #+BEGIN_SRC emacs-lisp
   (org-babel-do-load-languages
    'org-babel-load-languages
-   '((shell . t)
+   '((sh . t)
      (ruby . t)))
 #+END_SRC
 
@@ -649,14 +649,22 @@ Add hook for rainbow delimiters mode (see clojure config)
 (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode)
 #+END_SRC
 
-On saving, byte compile any .el file that already has a corrisponding
-.elc file. This is to guard against someone updating the .el file but
-forgetting to byte-compile it, and not having the changes take
-effect.
+When in emacs-lisp-mode, this will check that a byte compiled version
+of the current .el file exists, and if it does, it will
+byte-compile. This is useful for keeping .el files from falling out of
+date behind their byte-compiled versions.
 #+BEGIN_SRC emacs-lisp
+  (defun byte-compile-current-buffer ()
+    "`byte-compile' current buffer if it's emacs-lisp-mode and compiled file exists."
+    (interactive)
+    (when (and (eq major-mode 'emacs-lisp-mode)
+	       (file-exists-p (byte-compile-dest-file buffer-file-name)))
+      (byte-compile-file buffer-file-name)))
+
   (add-hook 'prog-mode-hook
-            (lambda ()
-               (add-hook 'after-save-hook 'byte-compile-current-buffer nil 'make-it-local)))
+	    (lambda ()
+	      (add-hook 'after-save-hook 'byte-compile-current-buffer nil 'make-it-local)))
+
 #+END_SRC
 
 * config for scheme
@@ -945,20 +953,6 @@ current line. I may be duplicating some existing emacs command here.
 
 I got this function from:
 http://ergoemacs.org/emacs/emacs_byte_compile.html
-
-When in emacs-lisp-mode, this will check that a byte compiled version
-of the current .el file exists, and if it does, it will
-byte-compile. This is useful for keeping .el files from falling out of
-date behind their byte-compiled versions.
-#+BEGIN_SRC emacs-lisp
-  (defun byte-compile-current-buffer ()
-    "`byte-compile' current buffer if it's emacs-lisp-mode and compiled file exists."
-    (interactive)
-    (when (and (eq major-mode 'emacs-lisp-mode)
-               (file-exists-p (byte-compile-dest-file buffer-file-name)))
-      (byte-compile-file buffer-file-name)))
-#+END_SRC
-
 ** org-mode spreadsheet helper functions
 I wrote these functions to help with calculating my work hours and
 wages in an org-mode spreadsheet. I needed these to help calculate

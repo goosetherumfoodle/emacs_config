@@ -23,8 +23,8 @@
   (package-install 'use-package))
 
 ;; taken from the use-package docs
-(eval-when-compile (require 'use-package))
-;;(require 'diminish)                ;; if you use :diminish
+(eval-when-compile
+  (require 'use-package))
 (require 'bind-key)                ;; if you use any :bind variant
 
 ;; Finally compile and load the lisp from the org-mode file
