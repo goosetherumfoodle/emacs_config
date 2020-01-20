@@ -12,9 +12,8 @@
 ;; configure emacs package manager to include melpa packages
 (require 'package)
 (add-to-list 'package-archives
-	     '("melpa" . "https://melpa.org/packages/") t)
-(when (< emacs-major-version 24)
-  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
+	     '("melpa" . "https://melpa.org/packages/")
+             '("org" . "http://orgmode.org/elpa/") t)
 (package-initialize)
 
 ;; Require use-package, althought I can't get it working right

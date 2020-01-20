@@ -85,6 +85,7 @@ packages
   (use-package "groovy-mode" :ensure t)
   (use-package "leerzeichen" :ensure t)   ; a better whitespace mode
   (use-package "all-the-icons" :ensure t)
+  (use-package "bug-hunter" :ensure t)
 #+END_SRC
 
 Expired packages:
@@ -222,7 +223,7 @@ explicitly enabled. At the moment this only explicitly enables shell
 #+BEGIN_SRC emacs-lisp
   (org-babel-do-load-languages
    'org-babel-load-languages
-   '((sh . t)
+   '((shell . t)
      (ruby . t)))
 #+END_SRC
 
@@ -240,7 +241,10 @@ structure.
 #+BEGIN_SRC emacs-lisp
   (add-hook 'org-mode-hook 'undo-tree-mode)
 #+END_SRC
-
+** inserting source blocks
+- in the older versions of org-mode you could type `<s` followed by
+  TAB to insert a code block.
+- now you can bring up a menu of template to insert with `C-c C-,`
 * smart-parens-mode
 
 #+BEGIN_SRC emacs-lisp
@@ -472,13 +476,6 @@ getting rspec running in emacs.
 #+END_SRC
 
 * config for Clojure
-
-Require cider-mode. Cider-mode will evaluate clojure in a repl.  I've commented this out because use-package is
-erroring out
-#+BEGIN_SRC emacs-lisp
-;;  (use-package cider-mode
-;;               :ensure t)
-#+END_SRC
 
 start eldoc-mode in cider-mode. Eldoc shows doc strings in the
 mini-buffer.
@@ -769,6 +766,10 @@ generic scala mode, not super useful.
   (use-package "scala-mode" :ensure t)
 #+END_SRC
 
+* elm
+- install elm mode
+- (add-to-list 'company-backends 'company-elm)
+- look into ensure that elm-oracle is installed
 * java
 ** meghanada
    Experimenting with this mode.
@@ -826,9 +827,11 @@ pretty print json files
   (global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
 #+END_SRC
 
-require package for manipulating github pull requests from within magit
+require package for manipulating github pull requests from within
+magit. This started causing magit-status to fail to be able to open
+the minibuffer, so I've disabled it for the time being.
 #+BEGIN_SRC emacs-lisp
-  (use-package "forge" :ensure t)
+  ;; (use-package "forge" :ensure t)
 #+END_SRC
 
 * RSS
@@ -1135,4 +1138,56 @@ required functions are also included.
           ((= dec 44) "0027")
           ((= dec 59) "061b")
           (t nil)))
+#+END_SRC
+* ethan gas
+
+#+BEGIN_SRC emacs-lisp
+  ;; may 23 - june 23
+  ;; jun 24 - nov 11
+  (funcall (lambda (gal-price mpg trip-distance trip-count) (* gal-price (/ (float (* trip-distance trip-count)) mpg))) 4 17 20 42) ;; 197.64705882352942
+
+  ;; jun
+  ;; 25   1
+  ;; 27   2
+
+  ;; jul
+  ;; 1  3
+  ;; 2  4
+  ;; 8 5
+  ;; 9 6
+  ;; 15 7
+  ;; 16 8
+  ;; 22 9
+  ;; 24 10
+  ;; 25 11
+  ;; 29 12
+
+  ;; aug
+  ;; 6 13
+  ;; 12 14
+  ;; 13 15
+  ;; 19 16
+  ;; 20 17
+  ;; 21 18
+  ;; 22 19
+
+  ;; sept
+  ;; 9 20
+  ;; 10 21
+  ;; 11 22
+  ;; 19 23
+  ;; 24 24
+
+  ;; oct
+  ;; 1 25
+  ;; 3 26
+  ;; 7 27
+  ;; 8 28
+  ;; 24 29
+  ;; 29 30
+
+  ;; nov
+  ;; 5  31
+  ;; thur 32
+
 #+END_SRC
