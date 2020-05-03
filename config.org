@@ -74,7 +74,6 @@ packages
   (use-package "simple-httpd" :ensure t)
   (use-package "yaml-mode" :ensure t)
   (use-package "restart-emacs" :ensure t)
-  (use-package "vue-mode" :ensure t)
   (use-package "sicp" :ensure t)
   (use-package "request-deferred" :ensure t)
   (use-package "undo-tree" :ensure t)
@@ -86,7 +85,8 @@ packages
   (use-package "leerzeichen" :ensure t)   ; a better whitespace mode
   (use-package "all-the-icons" :ensure t)
   (use-package "bug-hunter" :ensure t)
-#+END_SRC
+  (use-package "sparql-mode" :ensure t)
+  #+END_SRC
 
 Expired packages:
 
@@ -245,6 +245,14 @@ structure.
 - in the older versions of org-mode you could type `<s` followed by
   TAB to insert a code block.
 - now you can bring up a menu of template to insert with `C-c C-,`
+* ttl-mode
+i'm not super happy with this mode. might look for an alternative. The
+indentation it aggressivly-forces is annoying.
+
+#+begin_src emacs-lisp
+  (add-hook 'ttl-mode-hook 'turn-on-font-lock)
+  (add-to-list 'auto-mode-alist '("\\.\\(n3\\|ttl\\|trig\\)\\'" . ttl-mode))
+#+end_src
 * smart-parens-mode
 
 #+BEGIN_SRC emacs-lisp
@@ -377,10 +385,14 @@ Adds a function to be run with enh-ruby-mode which:
 
   (add-hook 'enh-ruby-mode-hook 'my-enh-ruby-mode-config)
 #+END_SRC
+** defunct
+*** ruby-electric-mode-setup
+this was all for geting ruby-electric mode working, but I don't do
+much ruby anymore and it no longer seems go be in melpa
 
 Adds a hook to start ruby electric mode. Ruby electric mode will
 auto-complete brackets, parens, and do-end blocks.
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
   (add-hook 'enh-ruby-mode-hook 'ruby-electric-mode)
 #+END_SRC
 
@@ -388,7 +400,7 @@ Overshadow the ruby-electric-curlies function defined in
 ruby-electric-mode. I added a slight modification to the function to
 put the cursor in between the curly braces, padded with a space on
 either side (like "{ X }").
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
   (defun ruby-electric-mode-config ()
    (defun ruby-electric-curlies (arg)
      (interactive "*P")
@@ -396,85 +408,89 @@ either side (like "{ X }").
       arg
       (cond
        ((ruby-electric-code-at-point-p)
-        (save-excursion
-          (insert "}")
-          (font-lock-fontify-region (line-beginning-position) (point)))
-        (cond
-         ((ruby-electric-string-at-point-p) ;; %w{}, %r{}, etc.
-          (if region-beginning
-              (forward-char 1)))
-         (ruby-electric-newline-before-closing-bracket
-          (cond (region-beginning
-                 (save-excursion
-                   (goto-char region-beginning)
-                   (newline))
-                 (newline)
-                 (forward-char 1)
-                 (indent-region region-beginning (line-end-position)))
-                (t
-                 (insert " ")
-                 (save-excursion
-                   (newline)
-                   (ruby-indent-line t)))))
-         (t
-          (if region-beginning
-              (save-excursion
-                (goto-char region-beginning)
-                (insert " "))
-            (insert " "))
-          (insert " ")
-          (backward-char)
-          (and region-beginning
-               (forward-char 1)))))
+	(save-excursion
+	  (insert "}")
+	  (font-lock-fontify-region (line-beginning-position) (point)))
+	(cond
+	 ((ruby-electric-string-at-point-p) ;; %w{}, %r{}, etc.
+	  (if region-beginning
+	      (forward-char 1)))
+	 (ruby-electric-newline-before-closing-bracket
+	  (cond (region-beginning
+		 (save-excursion
+		   (goto-char region-beginning)
+		   (newline))
+		 (newline)
+		 (forward-char 1)
+		 (indent-region region-beginning (line-end-position)))
+		(t
+		 (insert " ")
+		 (save-excursion
+		   (newline)
+		   (ruby-indent-line t)))))
+	 (t
+	  (if region-beginning
+	      (save-excursion
+		(goto-char region-beginning)
+		(insert " "))
+	    (insert " "))
+	  (insert " ")
+	  (backward-char)
+	  (and region-beginning
+	       (forward-char 1)))))
        ((ruby-electric-string-at-point-p)
-        (let ((start-position (1- (or region-beginning (point)))))
-          (cond
-           ((char-equal ?\# (char-before start-position))
-            (unless (save-excursion
-                      (goto-char (1- start-position))
-                      (ruby-electric-escaped-p))
-              (insert "}")
-              (or region-beginning
-                  (backward-char 1))))
-           ((or
-             (ruby-electric-command-char-expandable-punct-p ?\#)
-             (save-excursion
-               (goto-char start-position)
-               (ruby-electric-escaped-p)))
-            (if region-beginning
-                (goto-char region-beginning))
-            (setq this-command 'self-insert-command))
-           (t
-            (save-excursion
-              (goto-char start-position)
-              (insert "#"))
-            (insert "}")
-            (or region-beginning
-                (backward-char 1))))))
+	(let ((start-position (1- (or region-beginning (point)))))
+	  (cond
+	   ((char-equal ?\# (char-before start-position))
+	    (unless (save-excursion
+		      (goto-char (1- start-position))
+		      (ruby-electric-escaped-p))
+	      (insert "}")
+	      (or region-beginning
+		  (backward-char 1))))
+	   ((or
+	     (ruby-electric-command-char-expandable-punct-p ?\#)
+	     (save-excursion
+	       (goto-char start-position)
+	       (ruby-electric-escaped-p)))
+	    (if region-beginning
+		(goto-char region-beginning))
+	    (setq this-command 'self-insert-command))
+	   (t
+	    (save-excursion
+	      (goto-char start-position)
+	      (insert "#"))
+	    (insert "}")
+	    (or region-beginning
+		(backward-char 1))))))
        (t
-        (delete-char -1)
-        (ruby-electric-replace-region-or-insert))))))
+	(delete-char -1)
+	(ruby-electric-replace-region-or-insert))))))
 #+END_SRC
 
 Add a hook so that when ruby-electric-mode starts, the
 ruby-electric-curlies function will be overshadowed. Without doing
 this the packaged version of the function takes precedence.
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
   (add-hook 'ruby-electric-mode-hook 'ruby-electric-mode-config)
 #+END_SRC
+
+*** rspec integration
+I haven't used rspec in a while, and if I was using it now this would
+have to be different because I'm on nixos. But even then I would
+probably just use something like `entr` to run my test suite.
 
 I this fix from https://github.com/pezra/rspec-mode is supposed to fix
 a bug where rspec runs in zshell and doesn't work. I'm not sure if
 it's actually helping me or not, as I haven't put much time into
 getting rspec running in emacs.
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
   (defadvice rspec-compile (around rspec-compile-around)
     "Use BASH shell for running the specs because of ZSH issues."
     (let ((shell-file-name "/bin/bash"))
       ad-do-it))
   (ad-activate 'rspec-compile)
 #+END_SRC
-
 * config for Clojure
 
 start eldoc-mode in cider-mode. Eldoc shows doc strings in the
@@ -683,6 +699,97 @@ set coffee-mode to use a tab width of 2 spaces
   (add-hook 'coffee-mode-hook (lambda () (setq coffee-tab-width 2)))
 #+END_SRC
 
+* purescript
+** purescript-language-server integration
+  hook the lsp mode into purescript
+  #+begin_src emacs-lisp
+    (use-package purescript-mode :ensure t)
+    (add-hook 'purescript-mode-hook #'lsp)
+  #+end_src
+
+  the default cmd for starting the language server is
+  `purescript-language-server --stdio`, but I'm using it by invoking
+  yarn, inside a nix shell. So we need to override these variables,
+  which were added in this PR:
+  https://github.com/emacs-lsp/lsp-mode/pull/1596/files
+
+  The original values, as of the time of that PR are:
+  #+begin_src emacs-lisp :tangle no
+    (defcustom lsp-purescript-server-executable
+      "purescript-language-server"
+      "Arguments to pass to the server."
+      :type 'string
+      :risky t
+      :group 'lsp-purescript)
+
+    (defcustom lsp-purescript-server-args
+      '("--stdio")
+      "Arguments to pass to the server."
+      :type '(repeat string)
+      :risky t
+      :group 'lsp-purescript)
+
+    (defun lsp-purescript--server-command ()
+      "Generate LSP startup command for purescript-language-server."
+      (cons lsp-purescript-server-executable
+	    lsp-purescript-server-args))
+  #+end_src
+
+  The full command we want to run is
+  #+begin_src bash :tangle no
+    nix-shell --run 'yarn purescript-language-server --stdio'
+  #+end_src
+
+  So we'll override the first two of the relevent variables
+  #+begin_src emacs-lisp :tangle no
+    (setq lsp-purescript-server-executable "nix-shell")
+    (setq lsp-purescript-server-args '("--run" "'yarn purescript-language-server --stdio'"))
+  #+end_src
+
+  But that didn't work. It just immediately exits with no info. I
+  don't know why.
+
+  So I can run this one instead one instead, which implies we're in a
+  nix-shell.
+
+  #+begin_src emacs-lisp
+    (setq lsp-purescript-server-executable "yarn")
+    (setq lsp-purescript-server-args '("purescript-language-server" "--stdio"))
+  #+end_src
+
+
+  Note that this (obviously) requires the purescript-language-server
+  package to be installed through yarn, plus it requires
+  purescript. Both of the following should succeed (in the nix shell):
+  #+begin_src bash :tangle no
+    yarn purescript-language-server
+    purs ide # this is what the the above command wraps
+  #+end_src
+
+** pscide integration attempt
+   this method fails in this way: https://github.com/purescript-emacs/psc-ide-emacs/issues/189
+   #+begin_src emacs-lisp :tangle no
+     (use-package purescript-mode :ensure t)
+     (use-package psc-ide :ensure t)
+     (add-hook 'purescript-mode-hook
+       (lambda ()
+	 (psc-ide-mode)
+	 (company-mode)
+	 (flycheck-mode)
+	 (turn-on-purescript-indentation)))
+   #+end_src
+* language server protocol
+  this is used by several different language modes
+  #+begin_src emacs-lisp
+	(use-package lsp-mode :ensure t)
+  #+end_src
+
+  by default this uses Super in the prefix key, which I'm aleady using
+  for xmonad
+
+  #+begin_src emacs-lisp
+	(setq lsp-keymap-prefix "C-c l")
+  #+end_src
 * term-alert
 
   These commands provide wrappers around the term-alert.el package,
@@ -750,13 +857,81 @@ use js2-mode instead of javascript mode
 
 * haskell
 
+ghcide setup, from https://github.com/digital-asset/ghcide/blob/39605333c34039241768a1809024c739df3fb2bd/README.md
+
+#+begin_src emacs-lisp
+  ;; LSP
+  (use-package flycheck
+    :ensure t
+    :init
+    (global-flycheck-mode t))
+  (use-package yasnippet
+    :ensure t)
+  (use-package lsp-mode
+    :ensure t
+    :hook (haskell-mode . lsp)
+    :commands lsp)
+  (use-package lsp-ui
+    :ensure t
+    :commands lsp-ui-mode)
+  (use-package lsp-haskell
+   :ensure t
+   :config
+   (setq lsp-haskell-process-path-hie "ghcide")
+   (setq lsp-haskell-process-args-hie '())
+   ;; Comment/uncomment this line to see interactions between lsp client/server.
+   ;;(setq lsp-log-io t)
+  )
+#+end_src
+
+use `C-c C-c` to apply LSP suggestions in lsp-ui-mode
+#+begin_src emacs-lisp
+  (add-hook 'lsp-ui-mode-hook (lambda () (local-set-key (kbd "C-c C-c") 'lsp-ui-sideline-apply-code-actions)))
+#+end_src
+
+** defunct
+*** haskell lsp-mode
+
+I first tried replacing intero-mode with haskell lsp-mode, but the
+interface was clunky and most of the advertised features didn't seem
+to work
+
+#+begin_src emacs-lisp :tangle no
+  (use-package "lsp-mode" :ensure t)
+  (use-package "lsp-ui" :ensure t)
+  (use-package "lsp-haskell" :ensure t)
+#+end_src
+
+
+*** intero-mode
+- unfortunately intero has been end-of-lifed, so everything in this
+section is useless. I still prefer it to the haskell lsp mode, so it's
+a real bummer...
+
+- original:
+
 Intero-mode is a nice nigh-IDE for haskell. But don't start it
 automatically in haskell files b/c sometimes it can require quite a
 bit of setup.
 
-#+BEGIN_SRC emacs-lisp
+
+#+BEGIN_SRC emacs-lisp :tangle no
   (use-package "intero" :ensure t)
 #+END_SRC
+
+couldn't get dante mode working
+
+#+begin_src emacs-lisp :tangle no
+  (use-package "dante"
+    :ensure t
+    :after haskell-mode
+    :commands 'dante-mode
+    :init
+    (add-hook 'haskell-mode-hook 'flycheck-mode)
+    ;; OR:
+    ;; (add-hook 'haskell-mode-hook 'flymake-mode)
+    (add-hook 'haskell-mode-hook 'dante-mode))
+#+end_src
 
 * Scala
 
@@ -830,8 +1005,8 @@ pretty print json files
 require package for manipulating github pull requests from within
 magit. This started causing magit-status to fail to be able to open
 the minibuffer, so I've disabled it for the time being.
-#+BEGIN_SRC emacs-lisp
-  ;; (use-package "forge" :ensure t)
+#+BEGIN_SRC emacs-lisp :tangle no
+  (use-package "forge" :ensure t)
 #+END_SRC
 
 * RSS
@@ -1138,56 +1313,4 @@ required functions are also included.
           ((= dec 44) "0027")
           ((= dec 59) "061b")
           (t nil)))
-#+END_SRC
-* ethan gas
-
-#+BEGIN_SRC emacs-lisp
-  ;; may 23 - june 23
-  ;; jun 24 - nov 11
-  (funcall (lambda (gal-price mpg trip-distance trip-count) (* gal-price (/ (float (* trip-distance trip-count)) mpg))) 4 17 20 42) ;; 197.64705882352942
-
-  ;; jun
-  ;; 25   1
-  ;; 27   2
-
-  ;; jul
-  ;; 1  3
-  ;; 2  4
-  ;; 8 5
-  ;; 9 6
-  ;; 15 7
-  ;; 16 8
-  ;; 22 9
-  ;; 24 10
-  ;; 25 11
-  ;; 29 12
-
-  ;; aug
-  ;; 6 13
-  ;; 12 14
-  ;; 13 15
-  ;; 19 16
-  ;; 20 17
-  ;; 21 18
-  ;; 22 19
-
-  ;; sept
-  ;; 9 20
-  ;; 10 21
-  ;; 11 22
-  ;; 19 23
-  ;; 24 24
-
-  ;; oct
-  ;; 1 25
-  ;; 3 26
-  ;; 7 27
-  ;; 8 28
-  ;; 24 29
-  ;; 29 30
-
-  ;; nov
-  ;; 5  31
-  ;; thur 32
-
 #+END_SRC
