@@ -700,10 +700,34 @@ set coffee-mode to use a tab width of 2 spaces
 #+END_SRC
 
 * purescript
+  use purescript mode and configure the indentation mode.
+
+  #+begin_src emacs-lisp
+    (use-package purescript-mode :ensure t)
+    (add-hook 'purescript-mode-hook 'turn-on-purescript-indentation)
+  #+end_src
+
+  replace all instances of "forall" with "∀", but only in
+  purescript-mode buffers.
+
+  #+begin_src emacs-lisp
+    (add-hook 'purescript-mode-hook
+      (lambda()
+	(add-hook 'before-save-hook
+		  'forall-replace
+		  nil t)))
+
+    (defun forall-replace ()
+      "Replace all occurances of 'forall' with '∀'."
+	(save-excursion
+	  (goto-char (point-min))
+	  (while (re-search-forward "forall" nil t)
+	    (replace-match "∀"))))
+  #+end_src
+
 ** purescript-language-server integration
   hook the lsp mode into purescript
   #+begin_src emacs-lisp
-    (use-package purescript-mode :ensure t)
     (add-hook 'purescript-mode-hook #'lsp)
   #+end_src
 
@@ -778,6 +802,10 @@ set coffee-mode to use a tab width of 2 spaces
 	 (flycheck-mode)
 	 (turn-on-purescript-indentation)))
    #+end_src
+
+   Apparently it's the result of json-encoding-pretty-print being set
+   to true, but I'm still going to leave this off for now because the
+   LSP-mode is working fine.
 * language server protocol
   this is used by several different language modes
   #+begin_src emacs-lisp
