@@ -71,12 +71,11 @@ display column numbers alongside line numbers
   (setq column-number-mode t)
 #+END_SRC
 
-** required
+** misc. required packages
 packages
 
 #+BEGIN_SRC emacs-lisp
-  (use-package "highlight-indent-guides" :ensure t)
-  (use-package "which-key" :ensure t)
+  (use-package "dhall-mode" :ensure t)
   (use-package "simple-httpd" :ensure t)
   (use-package "yaml-mode" :ensure t)
   (use-package "restart-emacs" :ensure t)
@@ -92,22 +91,39 @@ packages
   (use-package "all-the-icons" :ensure t)
   (use-package "bug-hunter" :ensure t)
   (use-package "sparql-mode" :ensure t)
-  (use-package "terraform-mode" :ensure t)
-  (use-package "helpful" :ensure t)
-  (use-package "treemacs" :ensure t)
-  (use-package "treemacs-magit" :ensure t)
-  (use-package "highlight-symbol" :ensure t)
-  (if (not (require 'all-the-icons nil 'noerror))  ;; if we're installing all-the-icons fresh,
-      (and                                         ;; first install the package
-           (use-package "all-the-icons-dired" :ensure t)
-           (all-the-icons-install-fonts)))         ;; then download the fonts
-
-#+END_SRC
+  (use-package "yaml-mode" :ensure t)
+  (use-package "markdown-mode" :ensure t)
+  (use-package "racket-mode" :ensure t)
+  (use-package "elm-mode" :ensure t)
+  (use-package "docker-tramp" :ensure t)
+  (use-package "helm-tramp" :ensure t)
+  (use-package "shen-mode" :ensure t)
+  (use-package "harvest" :ensure t)
+  (use-package "rspec-mode" :ensure t)
+  (use-package "haml-mode" :ensure t)
+  (use-package "rjsx-mode" :ensure t)
+  (use-package "web-mode" :ensure t)
+  (use-package "slime-volleyball" :ensure t)
+  (use-package "clj-refactor" :ensure t)
+  (use-package "rainbow-delimiters" :ensure t)
+  (use-package "enh-ruby-mode" :ensure t)
+  (use-package "smartparens" :ensure t)
+  (use-package "magit" :ensure t)
+  (use-package "helm" :ensure t)
+  (use-package "cider" :ensure t)
+  (use-package "term-alert" :ensure t)
+  (use-package "undo-tree" :ensure t)
+  (use-package "request-deferred" :ensure t)
+  (use-package "sicp" :ensure t)
+  (use-package "restart-emacs" :ensure t)
+  (use-package "use-package" :ensure t)
+  #+END_SRC
 
 Expired packages:
 
 #+BEGIN_SRC emacs-lisp :tangle no
    (use-package "column-marker" :ensure t)
+   (use-package "markdown-mode+" :ensure t)
 #+END_SRC
 
 * macOS
@@ -172,7 +188,7 @@ moving point to the next. C-M-m jumps backwards.
   (global-set-key (kbd "C-M-m") 'iy-go-to-char-backward)
 #+END_SRC
 
-Use C-i to switch windows.
+Use C-, to switch windows.
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-,") 'other-window)
 #+END_SRC
@@ -800,15 +816,20 @@ set coffee-mode to use a tab width of 2 spaces
     (add-hook 'purescript-mode-hook
       (lambda()
 	(add-hook 'before-save-hook
-		  'forall-replace
+		  (lambda ()
+		    (replace-all-in-buffer "forall" "∀")
+		    (replace-all-in-buffer "->" "→")
+		    (replace-all-in-buffer "=>" "⇒")
+		    (replace-all-in-buffer "<-" "←")
+		    (replace-all-in-buffer "::" "∷"))
 		  nil t)))
 
-    (defun forall-replace ()
-      "Replace all occurances of 'forall' with '∀'."
+    (defun replace-all-in-buffer (original new)
+      "Replace all occurances of original with new."
 	(save-excursion
 	  (goto-char (point-min))
-	  (while (re-search-forward "forall" nil t)
-	    (replace-match "∀"))))
+	  (while (re-search-forward original nil t)
+	    (replace-match new))))
   #+end_src
 
 ** purescript-language-server integration
