@@ -1,4 +1,45 @@
-* general config
+#+OPTIONS: toc:2
+
+In the startup process emacs will read from [[file:init.el][init.el]] which will do
+some initial setup, [[https://en.wikipedia.org/wiki/Literate_programming][tangle]] the source blocks in this file and execute
+them. The output will be =config.el= which I don't track in git.
+
+When viewing this in emacs, to learn about a function put the point
+over it and hit ~C-h f <ENTER>~. To learn about a variable put the
+cursor over it and hit ~C-h v <ENTER>~. Source-blocks can be folded by
+putting the point over them and hitting `<TAB>`.
+
+* notes
+** org mode
++ [[https://orgmode.org/worg/org-contrib/][org-contrib]] lists some  more org mode funtionality that might be
+  worth checking out.
+*** inserting source blocks
+In the older versions of org-mode you could type =<s= followed by TAB
+to insert a code block. Now you need to bring up a menu of templates
+to insert with =C-c C-,=
+** literate programming
+This config file is really only scraping  the surface. [[http://www.howardism.org/Technical/Emacs/literate-programming-tutorial.html][This blog
+  post]] gets into some more org-mode literate programming that I haven't explored yet.
+** dotenv files
+I think I must have had something like [[https://github.com/pkulev/dotenv.el][dotenv.el]] set up in the past
+(based on the =env/= functions in the twilio helper functions) but I
+evidently didn't save it in my emacs config. so I need to figure that
+out again.
+** emacs package management
+Now that I've gotten into nix I'd like to improve my package
+management for emacs. That dotenv.el repo contains an interesting
+usage of [[https://github.com/quelpa/quelpa-use-package][quelpa-use-package]] which in turn depends on [[https://github.com/jwiegley/use-package#package-installation][quelpa]]. Instead
+of going down a rabbit hole on this right now I need to set aside time
+at some point to look into a better emacs package mgmt solution.
+* configuration
+     :PROPERTIES:
+     :header-args: :results silent
+     :END:
+** package installation
+This needs to come first to bootstrap [[https://github.com/jwiegley/use-package#key-binding][use-package]].
+
+Install use-package and set =ensure= true to make all uses of
+** intial
 
 Use dark theme
 #+BEGIN_SRC emacs-lisp
@@ -60,7 +101,7 @@ set eww as the default browser to open links with
   (setq browse-url-browser-function 'eww-browse-url)
 #+END_SRC
 
-remap goto-line `M-g M-g` to preview the line first
+remap goto-line =M-g M-g= to preview the line first
 #+BEGIN_SRC emacs-lisp
   (use-package "goto-line-preview" :ensure t)
   (global-set-key [remap goto-line] 'goto-line-preview)
@@ -71,10 +112,12 @@ display column numbers alongside line numbers
   (setq column-number-mode t)
 #+END_SRC
 
-** misc. required packages
-packages
+*** misc. required packages
+packages to include but which there's not much to say about them and
+so they are just required in bulk here.
 
 #+BEGIN_SRC emacs-lisp
+  (use-package "use-package" :ensure t)
   (use-package "dhall-mode" :ensure t)
   (use-package "simple-httpd" :ensure t)
   (use-package "yaml-mode" :ensure t)
@@ -88,7 +131,6 @@ packages
   (use-package "mustache-mode" :ensure t)
   (use-package "groovy-mode" :ensure t)
   (use-package "leerzeichen" :ensure t)   ; a better whitespace mode
-  (use-package "all-the-icons" :ensure t)
   (use-package "bug-hunter" :ensure t)
   (use-package "sparql-mode" :ensure t)
   (use-package "yaml-mode" :ensure t)
@@ -116,7 +158,6 @@ packages
   (use-package "request-deferred" :ensure t)
   (use-package "sicp" :ensure t)
   (use-package "restart-emacs" :ensure t)
-  (use-package "use-package" :ensure t)
   #+END_SRC
 
 Expired packages:
@@ -126,7 +167,7 @@ Expired packages:
    (use-package "markdown-mode+" :ensure t)
 #+END_SRC
 
-* macOS
+** macOS
 
 for macbooks, use the command-key as meta, and the option-key as ctrl
 
@@ -152,7 +193,7 @@ the shell. with any luck this will fix that
      (exec-path-from-shell-initialize)))
 #+END_SRC
 
-* global keybindings
+** global keybindings
 
 Use helm for function search
 #+BEGIN_SRC emacs-lisp
@@ -214,26 +255,25 @@ lines copied from https://github.com/Wilfred/helpful/blob/0aa289e7a954df456793e7
   (global-set-key (kbd "C-h C") #'helpful-command)
 #+END_SRC
 
-* buffer wrangling
-  With the swap buffers package you can use `M-x swap-buffers` to move
+** buffer wrangling
+  With the swap buffers package you can use =M-x swap-buffers= to move
   the current buffer to a new window.
   #+BEGIN_SRC emacs-lisp
     (use-package "swap-buffers" :ensure t)
   #+END_SRC
 
-  since I'm using `C-,` for switching windows, I'll use `C-M-,` for
+  since I'm using =C-,= for switching windows, I'll use =C-M-,= for
   swapping them.
   #+BEGIN_SRC emacs-lisp
     (global-set-key (kbd "C-M-,") 'swap-buffers)
   #+END_SRC
-* text-mode
-
+** text-mode
 Turn on auto-fill mode.
 #+BEGIN_SRC emacs-lisp
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 #+END_SRC
 
-* prog-mode
+** prog-mode
 
 prog mode is the super class of every programming language mode
 
@@ -280,7 +320,7 @@ structure.
   (add-hook 'prog-mode-hook 'undo-tree-mode)
 #+END_SRC
 
-* org-mode
+** org-mode
 
   ensure that the C-, doesn't get over-written by org-mode
 #+BEGIN_SRC emacs-lisp
@@ -323,12 +363,14 @@ structure.
   (add-hook 'org-mode-hook 'undo-tree-mode)
 #+END_SRC
 
-** inserting source blocks
-- in the older versions of org-mode you could type `<s` followed by
-  TAB to insert a code block.
-- now you can bring up a menu of template to insert with `C-c C-,`
+Prettify headings and plain lists in Org mode.
 
-* ttl-mode
+#+begin_src emacs-lisp
+  (use-package "org-superstar" :ensure t)
+  (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
+#+end_src
+
+** ttl-mode
 i'm not super happy with this mode. might look for an alternative. The
 indentation it aggressivly-forces is annoying.
 
@@ -337,7 +379,7 @@ indentation it aggressivly-forces is annoying.
   (add-to-list 'auto-mode-alist '("\\.\\(n3\\|ttl\\|trig\\)\\'" . ttl-mode))
 #+end_src
 
-* projectile
+** projectile
   install both projectile and its treemacs integration
   #+BEGIN_SRC emacs-lisp
     (use-package "projectile" :ensure t)
@@ -351,7 +393,7 @@ indentation it aggressivly-forces is annoying.
   #+END_SRC
 
   to jump to any file in a project, use C-c p f
-* smart-parens-mode
+** smart-parens-mode
 
 #+BEGIN_SRC emacs-lisp
   (use-package "smartparens" :ensure t)
@@ -384,7 +426,7 @@ Also don't like it completing double-quotes
   (eval-after-load "smartparens" '(sp-pair "\"" nil :actions :rem))
 #+END_SRC
 
-Also disable the auto-completion of `
+Also disable the auto-completion of =`=
 #+BEGIN_SRC emacs-lisp
   (eval-after-load "smartparens" '(sp-pair "`" nil :actions :rem))
 #+END_SRC
@@ -394,7 +436,7 @@ Use strict-mode.
   (add-hook 'smartparens-mode-hook 'smartparens-strict-mode)
 #+END_SRC
 
-* web-mode
+** web-mode
 I prefer web-mode to whatever the default mode was for dealing with
 html.
 
@@ -436,7 +478,7 @@ set "jsx" as content type with .js and .jsx files
     '(("jsx" . "\\.js[x]?\\'")))
 #+END_SRC
 
-* whitespace-mode
+** whitespace-mode
   For a while I thought I wanted to customize whitespace-mode and
   start using it for programming. But I quickly realized that all I
   really wanted to do was to automatically eliminate trailing
@@ -448,12 +490,20 @@ don't remember what it does, but I'm sure it's great.
   (setq whitespace-style '(face trailing empty))
 #+END_SRC
 
-* dired-mode
-enable all-the-icons in dired mode
+** dired-mode
+enable all-the-icons in dired mode... but only if we're in a graphical frame.
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+  (use-package "all-the-icons" :ensure t)
+  (use-package "all-the-icons-dired" :ensure t)
+  (add-hook
+   'after-make-frame-functions
+   (lambda ()
+     (if (display-graphic-p)
+	 (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))))
+
 #+END_SRC
-* config for Ruby
+
+** config for Ruby
 
 Require enh-ruby-mode.
 #+BEGIN_SRC emacs-lisp
@@ -470,8 +520,8 @@ Use enh-ruby-mode instead of ruby-mode. Among other things, it has
 #+END_SRC
 
 Adds a function to be run with enh-ruby-mode which:
-- Sets "C-o" to jump to a new line
-- creates "M-x insert-pry" command which will insert "require 'pry';
++ Sets "C-o" to jump to a new line
++ creates "M-x insert-pry" command which will insert "require 'pry';
   binding.pry". (This will cause the ruby interpreter to start the pry
   repl in the context of this line).
 #+BEGIN_SRC emacs-lisp
@@ -487,8 +537,8 @@ Adds a function to be run with enh-ruby-mode which:
 
   (add-hook 'enh-ruby-mode-hook 'my-enh-ruby-mode-config)
 #+END_SRC
-** defunct
-*** ruby-electric-mode-setup
+*** defunct
+**** ruby-electric-mode-setup
 this was all for geting ruby-electric mode working, but I don't do
 much ruby anymore and it no longer seems go be in melpa
 
@@ -577,10 +627,10 @@ this the packaged version of the function takes precedence.
   (add-hook 'ruby-electric-mode-hook 'ruby-electric-mode-config)
 #+END_SRC
 
-*** rspec integration
+**** rspec integration
 I haven't used rspec in a while, and if I was using it now this would
 have to be different because I'm on nixos. But even then I would
-probably just use something like `entr` to run my test suite.
+probably just use something like =entr= to run my test suite.
 
 I this fix from https://github.com/pezra/rspec-mode is supposed to fix
 a bug where rspec runs in zshell and doesn't work. I'm not sure if
@@ -593,7 +643,7 @@ getting rspec running in emacs.
       ad-do-it))
   (ad-activate 'rspec-compile)
 #+END_SRC
-* config for Clojure
+** config for Clojure
 
 start eldoc-mode in cider-mode. Eldoc shows doc strings in the
 mini-buffer.
@@ -637,32 +687,32 @@ use clojure-refactor package, and set it to use dot prefix notation in requireme
   (setq cljr-favor-prefix-notation nil)
 #+END_SRC
 
-** cider-sms-all-tests
+*** cider-sms-all-tests
 
    Command to run all the tests in a cider session, and send the
    results as an sms message.
 
-*** requirements
+**** requirements
 
    #+BEGIN_SRC emacs-lisp
     (use-package "dash" :ensure t)
     (use-package "cider" :ensure t)
    #+END_SRC
 
-*** command
+**** command
 
     Runs all tests in all namespaces connected to the current cider
     session. Sends an SMS notification to the number specified by
-    `gf/sms-notification`. Contains a summary of results, and files
+    =gf/sms-notification=. Contains a summary of results, and files
     with linenumbers where failures occured in the test suite.
 
     The lambda gets called repeatedly by the sub-process, but doesn't
-    seem to have any useful data until `results` is present in `response`.
+    seem to have any useful data until =results= is present in =response=.
 
     Was written for a long-running test suite, so no command was
     written for running a single tests, or a single namespace. To
-    instead run a single namespace, change `"op" "test-all"` to `"op"
-    "test"`. And change `"ns" nil` to `"ns" <namespace>`.
+    instead run a single namespace, change ="op" "test-all"= to ~"op"
+    "test"~. And change ="ns" nil= to ="ns" <namespace>=.
 
     #+BEGIN_SRC emacs-lisp
       (defun cider-sms-all-tests ()
@@ -690,7 +740,7 @@ use clojure-refactor package, and set it to use dot prefix notation in requireme
                                                 failure-details)))))))))
     #+END_SRC
 
-*** formatting
+**** formatting
 
     Format the test results into a string for the SMS message.
 
@@ -716,9 +766,9 @@ use clojure-refactor package, and set it to use dot prefix notation in requireme
      "\n"))
 #+END_SRC
 
-*** data accessors/constructors
+**** data accessors/constructors
 
-    The `nrepl-dict.el` package provides a dict datatype that's
+    The =nrepl-dict.el= package provides a dict datatype that's
     returned by the cider nrepl client.
 
 #+BEGIN_SRC emacs-lisp
@@ -735,14 +785,14 @@ use clojure-refactor package, and set it to use dot prefix notation in requireme
                    results)))
 
   (defun gf/problem->file-line-context (problem)
-    "Build a list of `(file line context)`"
+    "Build a list of `(file line context)'"
     (let ((file (nrepl-dict-get problem "file"))
           (line (nrepl-dict-get problem "line"))
           (context (nrepl-dict-get problem "context")))
       (list file line context)))
 #+END_SRC
 
-* config for emacs lisp
+** config for emacs lisp
 
 Add hook for smartparens mode. (see clojure config for explanation)
 #+BEGIN_SRC emacs-lisp
@@ -782,7 +832,7 @@ date behind their byte-compiled versions.
 
 #+END_SRC
 
-* config for scheme
+** config for scheme
 
 Start rainbow-delimiters mode with scheme
 #+BEGIN_SRC emacs-lisp
@@ -794,14 +844,14 @@ Start smartparens-mode with scheme.
   (add-hook 'scheme-mode-hook 'smartparens-mode)
 #+END_SRC
 
-* config for coffeescript
+** config for coffeescript
 
 set coffee-mode to use a tab width of 2 spaces
 #+BEGIN_SRC emacs-lisp
   (add-hook 'coffee-mode-hook (lambda () (setq coffee-tab-width 2)))
 #+END_SRC
 
-* purescript
+** purescript
   use purescript mode and configure the indentation mode.
 
   #+begin_src emacs-lisp
@@ -832,14 +882,14 @@ set coffee-mode to use a tab width of 2 spaces
 	    (replace-match new))))
   #+end_src
 
-** purescript-language-server integration
+*** purescript-language-server integration
   hook the lsp mode into purescript
   #+begin_src emacs-lisp
     (add-hook 'purescript-mode-hook #'lsp)
   #+end_src
 
   the default cmd for starting the language server is
-  `purescript-language-server --stdio`, but I'm using it by invoking
+  =purescript-language-server --stdio=, but I'm using it by invoking
   yarn, inside a nix shell. So we need to override these variables,
   which were added in this PR:
   https://github.com/emacs-lsp/lsp-mode/pull/1596/files
@@ -897,7 +947,7 @@ set coffee-mode to use a tab width of 2 spaces
     purs ide # this is what the the above command wraps
   #+end_src
 
-** pscide integration attempt
+*** pscide integration attempt
    this method fails in this way: https://github.com/purescript-emacs/psc-ide-emacs/issues/189
    #+begin_src emacs-lisp :tangle no
      (use-package purescript-mode :ensure t)
@@ -913,7 +963,7 @@ set coffee-mode to use a tab width of 2 spaces
    Apparently it's the result of json-encoding-pretty-print being set
    to true, but I'm still going to leave this off for now because the
    LSP-mode is working fine.
-* language server protocol
+** language server protocol
   this is used by several different language modes
   #+begin_src emacs-lisp
 	(use-package lsp-mode :ensure t)
@@ -925,7 +975,7 @@ set coffee-mode to use a tab width of 2 spaces
   #+begin_src emacs-lisp
 	(setq lsp-keymap-prefix "C-c l")
   #+end_src
-* term-alert
+** term-alert
 
   These commands provide wrappers around the term-alert.el package,
   which allows for an alert to be sent after commands complete in term-mode.
@@ -935,7 +985,7 @@ set coffee-mode to use a tab width of 2 spaces
 #+END_SRC
 
   Define two notification commands. They are both expecting to be run in
-  a terminal mode. `term-alert-function` should be a buffer local
+  a terminal mode. =term-alert-function= should be a buffer local
   variable, so these set it each time they're called.
 
 #+BEGIN_SRC emacs-lisp
@@ -965,7 +1015,7 @@ set coffee-mode to use a tab width of 2 spaces
     (gf/sms-notification "Term command completed."))
 #+END_SRC
 
-* javascript
+** javascript
 
   set indentation to 2 spaces
 #+BEGIN_SRC emacs-lisp
@@ -990,7 +1040,7 @@ use js2-mode instead of javascript mode
      `(,(rx ".js$") . js2-mode))
 #+END_SRC
 
-* haskell
+** haskell
 
 Since intero-mode has been end-of-lifed, i'm trying out dante.
 
@@ -1002,28 +1052,21 @@ Since intero-mode has been end-of-lifed, i'm trying out dante.
   :init
   (add-hook 'haskell-mode-hook 'flycheck-mode)
   (add-hook 'haskell-mode-hook 'dante-mode)
-  (add-hook 'haskell-mode-hook (lambda ()
-                                 (setq dante-tap-type-time 1)
-                                 )))
-
-
+  (add-hook 'haskell-mode-hook (lambda () (setq dante-tap-type-time 1))))
 #+END_SRC
 
-(setq dante-methods-alist (cons
-                                                            '(nix-no-net dante-cabal-nix ("nix-shell" "--no-substitute" "--run" (concat "cabal v1-repl " (or dante-target "") " --builddir=dist/dante")))
-                                                            dante-methods-alist))
 
-** previously on...
+*** previously on...
 
-Intero-mode is a nice nigh-IDE for haskell. But don't start it
-automatically in haskell files b/c sometimes it can require quite a
-bit of setup.
+I used to use inter-mode for haskell but it was end-of-lifed in favor of
+the haskell lsp mode. I never liked that haskell lsp mode. Dante comes
+the closest to having all the features of intero-mode.
 
-# #+BEGIN_SRC emacs-lisp
-#   (use-package "intero" :ensure t)
+# #+BEGIN_SRC emacs-lisp :tangle no
+   (use-package "intero" :ensure t)
 # #+END_SRC
 
-* Scala
+** Scala
 
 generic scala mode, not super useful.
 
@@ -1031,14 +1074,15 @@ generic scala mode, not super useful.
   (use-package "scala-mode" :ensure t)
 #+END_SRC
 
-* elm
-- install elm mode
-- (add-to-list 'company-backends 'company-elm)
-- look into ensure that elm-oracle is installed
-* java
+** elm
+todo:
+1. install elm mode
+2. (add-to-list 'company-backends 'company-elm)
+3. look into ensure that elm-oracle is installed
+** java
 
   tried out meghanada, but it was preventing saves and giving me other issues.
-** meghanada
+*** meghanada
    Experimenting with this mode.
 
    The following are from https://github.com/mopemope/meghanada-emacs/blob/master/README.md
@@ -1059,11 +1103,11 @@ dependencies of meghanada. Specified here: https://github.com/mopemope/meghanada
 #+END_SRC
 
 the next code block does the following:
-- use meghanada in java-mode
-- enable flycheck
-- set indentation levels
-- set locations of java and maven
-- autoformat code on save
++ use meghanada in java-mode
++ enable flycheck
++ set indentation levels
++ set locations of java and maven
++ autoformat code on save
 
 #+BEGIN_SRC emacs-lisp :tangle no
   (add-hook 'java-mode-hook
@@ -1077,7 +1121,7 @@ the next code block does the following:
 	 ))
 #+END_SRC
 
-** java lsp
+*** java lsp
    set up java lsp mode
    #+BEGIN_SRC emacs-lisp :tangle no
      (use-package "lsp-mode" :ensure t)
@@ -1092,7 +1136,7 @@ the next code block does the following:
 
    i've basically given in to intellij for java at work.
 
-* python
+** python
 
   use a whitespace mode with python and convert tabs to spaces on saving
 #+BEGIN_SRC emacs-lisp
@@ -1105,7 +1149,7 @@ the next code block does the following:
 
 #+END_SRC
 
-* json
+** json
 
 pretty print json files
 #+BEGIN_SRC emacs-lisp
@@ -1116,7 +1160,7 @@ pretty print json files
   (setq json-reformat:indent-width 2)
 #+END_SRC
 
-* git
+** git
 
   Set the magit bindings recommended in the magit tutorial
 #+BEGIN_SRC emacs-lisp
@@ -1132,7 +1176,7 @@ the minibuffer, so I've disabled it for the time being.
   (use-package "forge" :ensure t)
 #+END_SRC
 
-* RSS
+** RSS
 
 use elfeed for rss, and elfeed-org to organize rss feeds in an org
 file
@@ -1142,7 +1186,7 @@ file
 #+END_SRC
 
 Initialize elfeed-org. This hooks up elfeed-org to read the configuration when elfeed
-is started with `M-x elfeed`
+is started with =M-x elfeed=
 #+BEGIN_SRC emacs-lisp
 (elfeed-org)
 #+END_SRC
@@ -1154,7 +1198,7 @@ supported.
 (setq rmh-elfeed-org-files (list "~/.emacs.d/elfeed.org"))
 #+END_SRC
 
-* eshell
+** eshell
 
   eshell can mess up some commands that are expecting piped input. Add
   them to this list if they don't work as expected with pipes.
@@ -1162,7 +1206,18 @@ supported.
   #+BEGIN_SRC emacs-lisp
     (eval-after-load "esh-proc" '(add-to-list 'eshell-needs-pipe "entr"))
   #+END_SRC
-* Twilio sms
+** Twilio sms
+I'd like to use this dotenv package, but I need to figure out quelpa
+first... maybe. Either way I'm not doing it right now.
+
+#+begin_src emacs-lisp :tangle no
+  (use-package dotenv
+    :ensure nil
+    :quelpa
+    (dotenv :repo "pkulev/dotenv.el"
+	    :fetcher github :upgrade t))
+#+end_src
+
 
   Ensure that the json.el package is present, which the request.el
   library uses to parse json responses.
@@ -1183,9 +1238,9 @@ supported.
     (concat "Basic " (base64-encode-string (concat username ":" password) t)))
 #+END_SRC
 
-  Core function that sends a request to the Twilio API. `sid` and
-  `token` must be aquired from [[www.twilio.com][Twilio]], and
-  `from-phone` must be verified.
+  Core function that sends a request to the Twilio API. =sid= and
+  =token= must be aquired from [[http://twilio.com][Twilio]], and
+  =from-phone= must be verified.
 #+BEGIN_SRC emacs-lisp
   (defun gf/twilio-send-text (sid token from-phone to-phone msg)
     (deferred:$
@@ -1210,7 +1265,7 @@ supported.
 
 #+END_SRC
 
-  Command wrapping the `gf/twilio-send-text` function. Queries user in
+  Command wrapping the =gf/twilio-send-text= function. Queries user in
   minibuffer for a phone number and message to send an SMS
   message.
   #+BEGIN_SRC emacs-lisp
@@ -1225,7 +1280,7 @@ supported.
                              msg)))
   #+END_SRC
 
-   Generic command for sending an sms message to `env/my-phone`
+   Generic command for sending an sms message to =env/my-phone=
 
   #+BEGIN_SRC emacs-lisp
     (defun gf/sms-notification (msg)
@@ -1237,7 +1292,7 @@ supported.
 
   #+END_SRC
 
-* custom functions
+** custom functions
 
 I wrote this because I missed Vi's "o" button which would create an
 empty line below the current one, and jump to it without breaking the
@@ -1254,7 +1309,7 @@ current line. I may be duplicating some existing emacs command here.
 
 I got this function from:
 http://ergoemacs.org/emacs/emacs_byte_compile.html
-** org-mode spreadsheet helper functions
+*** org-mode spreadsheet helper functions
 I wrote these functions to help with calculating my work hours and
 wages in an org-mode spreadsheet. I needed these to help calculate
 values in spreadsheet cells.
@@ -1311,7 +1366,7 @@ Converts a float into dollar format ($0.00)
     (format "$%0.2f" float))
 #+END_SRC
 
-* novelty functions
+** novelty functions
   These were the first functions I wrote, while reading the built-in
   emacs lisp tutorial. A friend of mine loves the table-flipping meme,
   but hates emacs. So I decided to write the table-flipping meme into

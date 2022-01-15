@@ -28,6 +28,11 @@
 
 ;; Finally compile and load the lisp from the org-mode file
 (org-babel-load-file (concat user-emacs-directory "config.org"))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;; EMACS CONTROLLED VARIABLES :::::::::::
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
