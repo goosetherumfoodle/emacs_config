@@ -1,18 +1,18 @@
 #+OPTIONS: toc:2
 
 In the startup process emacs will read from [[file:init.el][init.el]] which will do
-some initial setup, [[https://en.wikipedia.org/wiki/Literate_programming][tangle]] the source blocks in this file and execute
-them. The output will be =config.el= which I don't track in git.
+some initial setup, [[https://en.wikipedia.org/wiki/Literate_programming][tangle]] the source blocks in this file to generate
+and load =config.el= (which isn't tracked in git).
 
 When viewing this in emacs, to learn about a function put the point
 over it and hit ~C-h f <ENTER>~. To learn about a variable put the
 cursor over it and hit ~C-h v <ENTER>~. Source-blocks can be folded by
-putting the point over them and hitting `<TAB>`.
+putting the point over them and hitting ~<TAB>~.
 
 * notes
 ** org mode
-+ [[https://orgmode.org/worg/org-contrib/][org-contrib]] lists some  more org mode funtionality that might be
-  worth checking out.
+*** resources
+[[https://orgmode.org/worg/org-contrib/][org-contrib]] lists some  more org mode funtionality that might be worth checking out.
 *** inserting source blocks
 In the older versions of org-mode you could type =<s= followed by TAB
 to insert a code block. Now you need to bring up a menu of templates
@@ -36,9 +36,30 @@ at some point to look into a better emacs package mgmt solution.
      :header-args: :results silent
      :END:
 ** package installation
-This needs to come first to bootstrap [[https://github.com/jwiegley/use-package#key-binding][use-package]].
+Bootstrap [[https://github.com/jwiegley/use-package#key-binding][use-package]] since it'll be used from here on out.
+#+begin_src emacs-lisp
+  (require 'use-package)
+#+end_src
 
-Install use-package and set =ensure= true to make all uses of
+Make =use-package= default to intstalling the package if it doens't
+find it.
+
+#+begin_src emacs-lisp
+  (require 'use-package-ensure)
+  (setq use-package-always-ensure t)
+#+end_src
+
+Auto-update packages, delete the old versions, and don't spam a
+startup buffer with the results.
+
+#+begin_src emacs-lisp
+  (use-package auto-package-update
+    :config
+    (setq auto-package-update-delete-old-versions t)
+    (setq auto-package-update-hide-results t)
+    (auto-package-update-maybe))
+#+end_src
+
 ** intial
 
 Use dark theme
@@ -103,7 +124,7 @@ set eww as the default browser to open links with
 
 remap goto-line =M-g M-g= to preview the line first
 #+BEGIN_SRC emacs-lisp
-  (use-package "goto-line-preview" :ensure t)
+  (use-package "goto-line-preview")
   (global-set-key [remap goto-line] 'goto-line-preview)
 #+END_SRC
 
@@ -117,54 +138,52 @@ packages to include but which there's not much to say about them and
 so they are just required in bulk here.
 
 #+BEGIN_SRC emacs-lisp
-  (use-package "use-package" :ensure t)
-  (use-package "dhall-mode" :ensure t)
-  (use-package "simple-httpd" :ensure t)
-  (use-package "yaml-mode" :ensure t)
-  (use-package "restart-emacs" :ensure t)
-  (use-package "sicp" :ensure t)
-  (use-package "request-deferred" :ensure t)
-  (use-package "undo-tree" :ensure t)
-  (use-package "term-alert" :ensure t)
-  (use-package "cider" :ensure t)
-  (use-package "helm-ag" :ensure t)
-  (use-package "mustache-mode" :ensure t)
-  (use-package "groovy-mode" :ensure t)
-  (use-package "leerzeichen" :ensure t)   ; a better whitespace mode
-  (use-package "bug-hunter" :ensure t)
-  (use-package "sparql-mode" :ensure t)
-  (use-package "yaml-mode" :ensure t)
-  (use-package "markdown-mode" :ensure t)
-  (use-package "racket-mode" :ensure t)
-  (use-package "elm-mode" :ensure t)
-  (use-package "docker-tramp" :ensure t)
-  (use-package "helm-tramp" :ensure t)
-  (use-package "shen-mode" :ensure t)
-  (use-package "harvest" :ensure t)
-  (use-package "rspec-mode" :ensure t)
-  (use-package "haml-mode" :ensure t)
-  (use-package "rjsx-mode" :ensure t)
-  (use-package "web-mode" :ensure t)
-  (use-package "slime-volleyball" :ensure t)
-  (use-package "clj-refactor" :ensure t)
-  (use-package "rainbow-delimiters" :ensure t)
-  (use-package "enh-ruby-mode" :ensure t)
-  (use-package "smartparens" :ensure t)
-  (use-package "magit" :ensure t)
-  (use-package "helm" :ensure t)
-  (use-package "cider" :ensure t)
-  (use-package "term-alert" :ensure t)
-  (use-package "undo-tree" :ensure t)
-  (use-package "request-deferred" :ensure t)
-  (use-package "sicp" :ensure t)
-  (use-package "restart-emacs" :ensure t)
+  (use-package "use-package")
+  (use-package "dhall-mode")
+  (use-package "simple-httpd")
+  (use-package "yaml-mode")
+  (use-package "restart-emacs")
+  (use-package "sicp")
+  (use-package "request-deferred")
+  (use-package "undo-tree")
+  (use-package "cider")
+  (use-package "helm-ag")
+  (use-package "mustache-mode")
+  (use-package "groovy-mode")
+  (use-package "leerzeichen")   ; a better whitespace mode
+  (use-package "bug-hunter")
+  (use-package "sparql-mode")
+  (use-package "yaml-mode")
+  (use-package "markdown-mode")
+  (use-package "racket-mode")
+  (use-package "elm-mode")
+  (use-package "docker-tramp")
+  (use-package "helm-tramp")
+  (use-package "shen-mode")
+  (use-package "harvest")
+  (use-package "rspec-mode")
+  (use-package "haml-mode")
+  (use-package "rjsx-mode")
+  (use-package "web-mode")
+  (use-package "slime-volleyball")
+  (use-package "clj-refactor")
+  (use-package "rainbow-delimiters")
+  (use-package "enh-ruby-mode")
+  (use-package "smartparens")
+  (use-package "magit")
+  (use-package "helm")
+  (use-package "cider")
+  (use-package "undo-tree")
+  (use-package "request-deferred")
+  (use-package "sicp")
+  (use-package "restart-emacs")
   #+END_SRC
 
 Expired packages:
 
 #+BEGIN_SRC emacs-lisp :tangle no
-   (use-package "column-marker" :ensure t)
-   (use-package "markdown-mode+" :ensure t)
+   (use-package "column-marker")
+   (use-package "markdown-mode+")
 #+END_SRC
 
 ** macOS
@@ -189,7 +208,7 @@ the shell. with any luck this will fix that
 #+BEGIN_SRC emacs-lisp
   (when (memq window-system '(mac ns x))
     (and
-     (not (use-package "exec-path-from-shell" :ensure t))
+     (not (use-package "exec-path-from-shell"))
      (exec-path-from-shell-initialize)))
 #+END_SRC
 
@@ -197,7 +216,7 @@ the shell. with any luck this will fix that
 
 Use helm for function search
 #+BEGIN_SRC emacs-lisp
-  (use-package "helm" :ensure t)
+  (use-package "helm")
   (global-set-key (kbd "M-x") 'helm-M-x)
 #+END_SRC
 
@@ -259,7 +278,7 @@ lines copied from https://github.com/Wilfred/helpful/blob/0aa289e7a954df456793e7
   With the swap buffers package you can use =M-x swap-buffers= to move
   the current buffer to a new window.
   #+BEGIN_SRC emacs-lisp
-    (use-package "swap-buffers" :ensure t)
+    (use-package "swap-buffers")
   #+END_SRC
 
   since I'm using =C-,= for switching windows, I'll use =C-M-,= for
@@ -285,8 +304,7 @@ don't allow indenting to insert tabs
 require the linum-relative package which enables relative line
 numbers. I've disabled this out because use-package is erroring out.
 #+BEGIN_SRC emacs-lisp :tangle no
-  (use-package linum-relative
-               :ensure t)
+  (use-package linum-relative)
 #+END_SRC
 
 turn on absolute line numbers. (I'm still working out the kinks with
@@ -305,7 +323,7 @@ require a final \n character at the end of the file
 Highlight characters in the 80th column in red. Shadows the font-face
 color set in the package.
 #+BEGIN_SRC emacs-lisp :tangle no
-  (use-package "column-marker" :ensure t)
+  (use-package "column-marker")
   (add-hook 'prog-mode-hook (lambda ()
                               (defface column-marker-1 '((t (:background "red")))
     "Face used for a column marker.  Usually a background color."
@@ -316,7 +334,7 @@ color set in the package.
 undo-tree mode makes it easier to navigate the undo history as a tree
 structure.
 #+BEGIN_SRC emacs-lisp
-  (use-package "undo-tree" :ensure t)
+  (use-package "undo-tree")
   (add-hook 'prog-mode-hook 'undo-tree-mode)
 #+END_SRC
 
@@ -366,7 +384,7 @@ structure.
 Prettify headings and plain lists in Org mode.
 
 #+begin_src emacs-lisp
-  (use-package "org-superstar" :ensure t)
+  (use-package "org-superstar")
   (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
 #+end_src
 
@@ -382,8 +400,8 @@ indentation it aggressivly-forces is annoying.
 ** projectile
   install both projectile and its treemacs integration
   #+BEGIN_SRC emacs-lisp
-    (use-package "projectile" :ensure t)
-    (use-package "treemacs-projectile" :ensure t)
+    (use-package "projectile")
+    (use-package "treemacs-projectile")
   #+END_SRC
 
   basic treemacs setup. from https://github.com/bbatsov/projectile
@@ -396,7 +414,7 @@ indentation it aggressivly-forces is annoying.
 ** smart-parens-mode
 
 #+BEGIN_SRC emacs-lisp
-  (use-package "smartparens" :ensure t)
+  (use-package "smartparens")
 
 #+END_SRC
 
@@ -451,7 +469,7 @@ Configure pairing and auto-closing.
 Require web-mode. I've commented this out because use-package is
 erroring out
 #+BEGIN_SRC emacs-lisp :tangle no
-  (use-package web-mode :ensure t)
+  (use-package web-mode)
 #+END_SRC
 
 Set various file-types to invoke web-mode
@@ -493,8 +511,8 @@ don't remember what it does, but I'm sure it's great.
 ** dired-mode
 enable all-the-icons in dired mode... but only if we're in a graphical frame.
 #+BEGIN_SRC emacs-lisp
-  (use-package "all-the-icons" :ensure t)
-  (use-package "all-the-icons-dired" :ensure t)
+  (use-package "all-the-icons")
+  (use-package "all-the-icons-dired")
   (add-hook
    'after-make-frame-functions
    (lambda ()
@@ -507,7 +525,7 @@ enable all-the-icons in dired mode... but only if we're in a graphical frame.
 
 Require enh-ruby-mode.
 #+BEGIN_SRC emacs-lisp
-  (use-package "enh-ruby-mode" :ensure t)
+  (use-package "enh-ruby-mode")
 #+END_SRC
 
 Use enh-ruby-mode instead of ruby-mode. Among other things, it has
@@ -654,7 +672,7 @@ mini-buffer.
 Hook for rainbow-delimiters mode. Rainbow delimiters colors parens
 based on nesting level.
 #+BEGIN_SRC emacs-lisp
-  (use-package "rainbow-delimiters" :ensure t)
+  (use-package "rainbow-delimiters")
   (add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)
 #+END_SRC
 
@@ -683,7 +701,7 @@ Don't automatically open the cider repl in a new window.
 use clojure-refactor package, and set it to use dot prefix notation in requirements
 
 #+BEGIN_SRC emacs-lisp
-  (use-package "clj-refactor" :ensure t)
+  (use-package "clj-refactor")
   (setq cljr-favor-prefix-notation nil)
 #+END_SRC
 
@@ -695,8 +713,8 @@ use clojure-refactor package, and set it to use dot prefix notation in requireme
 **** requirements
 
    #+BEGIN_SRC emacs-lisp
-    (use-package "dash" :ensure t)
-    (use-package "cider" :ensure t)
+    (use-package "dash")
+    (use-package "cider")
    #+END_SRC
 
 **** command
@@ -855,7 +873,7 @@ set coffee-mode to use a tab width of 2 spaces
   use purescript mode and configure the indentation mode.
 
   #+begin_src emacs-lisp
-    (use-package purescript-mode :ensure t)
+    (use-package purescript-mode)
     (add-hook 'purescript-mode-hook 'turn-on-purescript-indentation)
   #+end_src
 
@@ -950,8 +968,8 @@ set coffee-mode to use a tab width of 2 spaces
 *** pscide integration attempt
    this method fails in this way: https://github.com/purescript-emacs/psc-ide-emacs/issues/189
    #+begin_src emacs-lisp :tangle no
-     (use-package purescript-mode :ensure t)
-     (use-package psc-ide :ensure t)
+     (use-package purescript-mode)
+     (use-package psc-ide)
      (add-hook 'purescript-mode-hook
        (lambda ()
 	 (psc-ide-mode)
@@ -966,7 +984,7 @@ set coffee-mode to use a tab width of 2 spaces
 ** language server protocol
   this is used by several different language modes
   #+begin_src emacs-lisp
-	(use-package lsp-mode :ensure t)
+	(use-package lsp-mode)
   #+end_src
 
   by default this uses Super in the prefix key, which I'm aleady using
@@ -981,7 +999,7 @@ set coffee-mode to use a tab width of 2 spaces
   which allows for an alert to be sent after commands complete in term-mode.
 
 #+BEGIN_SRC emacs-lisp
-  (use-package "term-alert" :ensure t)
+  (use-package "term-alert")
 #+END_SRC
 
   Define two notification commands. They are both expecting to be run in
@@ -1046,7 +1064,7 @@ Since intero-mode has been end-of-lifed, i'm trying out dante.
 
 #+BEGIN_SRC emacs-lisp
   (use-package dante
-  :ensure t
+
   :after haskell-mode
   :commands 'dante-mode
   :init
@@ -1063,7 +1081,7 @@ the haskell lsp mode. I never liked that haskell lsp mode. Dante comes
 the closest to having all the features of intero-mode.
 
 # #+BEGIN_SRC emacs-lisp :tangle no
-   (use-package "intero" :ensure t)
+   (use-package "intero")
 # #+END_SRC
 
 ** Scala
@@ -1071,7 +1089,7 @@ the closest to having all the features of intero-mode.
 generic scala mode, not super useful.
 
 #+BEGIN_SRC emacs-lisp
-  (use-package "scala-mode" :ensure t)
+  (use-package "scala-mode")
 #+END_SRC
 
 ** elm
@@ -1091,15 +1109,15 @@ todo:
   intero-mode for haskell (I'm assuming). but loading the java repos
   at work basically crashes emacs
 #+BEGIN_SRC emacs-lisp :tangle no
-  (use-package "meghanada" :ensure t)
+  (use-package "meghanada")
 #+END_SRC
 
 dependencies of meghanada. Specified here: https://github.com/mopemope/meghanada-emacs
 #+BEGIN_SRC emacs-lisp :tangle no
-  (use-package "cl-lib" :ensure t)
-  (use-package "yasnippet" :ensure t)
-  (use-package "company" :ensure t)
-  (use-package "flycheck" :ensure t)
+  (use-package "cl-lib")
+  (use-package "yasnippet")
+  (use-package "company")
+  (use-package "flycheck")
 #+END_SRC
 
 the next code block does the following:
@@ -1124,10 +1142,10 @@ the next code block does the following:
 *** java lsp
    set up java lsp mode
    #+BEGIN_SRC emacs-lisp :tangle no
-     (use-package "lsp-mode" :ensure t)
-     (use-package "company-lsp" :ensure t)
-     (use-package "lsp-ui" :ensure t)
-     (use-package "lsp-java" :ensure t)
+     (use-package "lsp-mode")
+     (use-package "company-lsp")
+     (use-package "lsp-ui")
+     (use-package "lsp-java")
 
      (add-hook 'java-mode-hook 'lsp)
      (add-hook 'java-mode-hook 'flycheck-mode)
@@ -1164,7 +1182,7 @@ pretty print json files
 
   Set the magit bindings recommended in the magit tutorial
 #+BEGIN_SRC emacs-lisp
-  (use-package "magit" :ensure t)
+  (use-package "magit")
   (global-set-key (kbd "C-x g") 'magit-status)
   (global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
 #+END_SRC
@@ -1173,7 +1191,7 @@ require package for manipulating github pull requests from within
 magit. This started causing magit-status to fail to be able to open
 the minibuffer, so I've disabled it for the time being.
 #+BEGIN_SRC emacs-lisp :tangle no
-  (use-package "forge" :ensure t)
+  (use-package "forge")
 #+END_SRC
 
 ** RSS
@@ -1181,8 +1199,8 @@ the minibuffer, so I've disabled it for the time being.
 use elfeed for rss, and elfeed-org to organize rss feeds in an org
 file
 #+BEGIN_SRC emacs-lisp
-  (use-package "elfeed" :ensure t)
-  (use-package "elfeed-org" :ensure t)
+  (use-package "elfeed")
+  (use-package "elfeed-org")
 #+END_SRC
 
 Initialize elfeed-org. This hooks up elfeed-org to read the configuration when elfeed
@@ -1222,13 +1240,13 @@ first... maybe. Either way I'm not doing it right now.
   Ensure that the json.el package is present, which the request.el
   library uses to parse json responses.
   #+BEGIN_SRC emacs-lisp
-    (use-package "json" :ensure t)
+    (use-package "json")
   #+END_SRC
 
   Ensure that the request-deferred.el package is present, which wraps
   request.el in a deferred function from deferred.el
   #+BEGIN_SRC emacs-lisp
-    (use-package "request-deferred" :ensure t)
+    (use-package "request-deferred")
   #+END_SRC
 
   Helper function used to generate the string expected by the
