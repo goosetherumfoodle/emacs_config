@@ -1,7 +1,8 @@
-#+OPTIONS: toc:2
+# #+OPTIONS: toc:2
+#+OPTIONS: toc:nil
 
 In the startup process emacs will read from [[file:init.el][init.el]] which will do
-some initial setup, [[https://en.wikipedia.org/wiki/Literate_programming][tangle]] the source blocks in this file to generate
+some initial setup, [[https://en.wikipedia.org/wiki/Literate_programming][tangle]] the source blocks in [[file:config.org][config.org]] to generate
 and load =config.el= (which isn't tracked in git).
 
 When viewing this in emacs, to learn about a function put the point
@@ -9,7 +10,10 @@ over it and hit ~C-h f <ENTER>~. To learn about a variable put the
 cursor over it and hit ~C-h v <ENTER>~. Source-blocks can be folded by
 putting the point over them and hitting ~<TAB>~.
 
+#+TOC: headlines 2
+
 * notes
+
 ** org mode
 *** resources
 [[https://orgmode.org/worg/org-contrib/][org-contrib]] lists some  more org mode funtionality that might be worth checking out.
@@ -994,6 +998,9 @@ set coffee-mode to use a tab width of 2 spaces
 	(setq lsp-keymap-prefix "C-c l")
   #+end_src
 ** term-alert
+:PROPERTIES:
+:header-args: :tangle no
+:END:
 
   These commands provide wrappers around the term-alert.el package,
   which allows for an alert to be sent after commands complete in term-mode.
