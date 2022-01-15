@@ -66,11 +66,17 @@ remap goto-line `M-g M-g` to preview the line first
   (global-set-key [remap goto-line] 'goto-line-preview)
 #+END_SRC
 
+display column numbers alongside line numbers
+#+BEGIN_SRC emacs-lisp
+  (setq column-number-mode t)
+#+END_SRC
+
 ** required
 packages
 
 #+BEGIN_SRC emacs-lisp
-  (use-package "neotree" :ensure t)
+  (use-package "highlight-indent-guides" :ensure t)
+  (use-package "which-key" :ensure t)
   (use-package "simple-httpd" :ensure t)
   (use-package "yaml-mode" :ensure t)
   (use-package "restart-emacs" :ensure t)
@@ -86,12 +92,22 @@ packages
   (use-package "all-the-icons" :ensure t)
   (use-package "bug-hunter" :ensure t)
   (use-package "sparql-mode" :ensure t)
-  #+END_SRC
+  (use-package "terraform-mode" :ensure t)
+  (use-package "helpful" :ensure t)
+  (use-package "treemacs" :ensure t)
+  (use-package "treemacs-magit" :ensure t)
+  (use-package "highlight-symbol" :ensure t)
+  (if (not (require 'all-the-icons nil 'noerror))  ;; if we're installing all-the-icons fresh,
+      (and                                         ;; first install the package
+           (use-package "all-the-icons-dired" :ensure t)
+           (all-the-icons-install-fonts)))         ;; then download the fonts
+
+#+END_SRC
 
 Expired packages:
 
-#+BEGIN_SRC emacs-lisp
-;;  (use-package "column-marker" :ensure t)
+#+BEGIN_SRC emacs-lisp :tangle no
+   (use-package "column-marker" :ensure t)
 #+END_SRC
 
 * macOS
@@ -102,6 +118,22 @@ for macbooks, use the command-key as meta, and the option-key as ctrl
   (when (eq system-type 'darwin)
      (setq mac-option-modifier 'control)
      (setq mac-command-modifier 'meta))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (when (eq system-type 'darwin)
+    (setq helm-grep-ag-command "ag --line-numbers -S --hidden --color --color-match '31;43' --nogroup %s %s %s")
+    (setq helm-grep-ag-pipe-cmd-switches '("--color-match '31;43'")))
+#+END_SRC
+
+macos has a problem that where the $PATH for gui emacs doens't match
+the shell. with any luck this will fix that
+
+#+BEGIN_SRC emacs-lisp
+  (when (memq window-system '(mac ns x))
+    (and
+     (not (use-package "exec-path-from-shell" :ensure t))
+     (exec-path-from-shell-initialize)))
 #+END_SRC
 
 * global keybindings
@@ -145,6 +177,39 @@ Use C-i to switch windows.
   (global-set-key (kbd "C-,") 'other-window)
 #+END_SRC
 
+Use "helpful" menus instead of builtin help menus. These
+lines copied from https://github.com/Wilfred/helpful/blob/0aa289e7a954df456793e7bc1f4bdc3d072e783f/README.md
+#+BEGIN_SRC emacs-lisp
+  ;; Lookup the current symbol at point. C-c C-d is a common keybinding
+  ;; for this in lisp modes.
+  (global-set-key (kbd "C-c C-d") #'helpful-at-point)
+
+  ;; Look up *F*unctions (excludes macros).
+  ;;
+  ;; By default, C-h F is bound to `Info-goto-emacs-command-node'. Helpful
+  ;; already links to the manual, if a function is referenced there.
+  (global-set-key (kbd "C-h F") #'helpful-function)
+
+  ;; Look up *C*ommands.
+  ;;
+  ;; By default, C-h C is bound to describe `describe-coding-system'. I
+  ;; don't find this very useful, but it's frequently useful to only
+  ;; look at interactive functions.
+  (global-set-key (kbd "C-h C") #'helpful-command)
+#+END_SRC
+
+* buffer wrangling
+  With the swap buffers package you can use `M-x swap-buffers` to move
+  the current buffer to a new window.
+  #+BEGIN_SRC emacs-lisp
+    (use-package "swap-buffers" :ensure t)
+  #+END_SRC
+
+  since I'm using `C-,` for switching windows, I'll use `C-M-,` for
+  swapping them.
+  #+BEGIN_SRC emacs-lisp
+    (global-set-key (kbd "C-M-,") 'swap-buffers)
+  #+END_SRC
 * text-mode
 
 Turn on auto-fill mode.
@@ -162,10 +227,10 @@ don't allow indenting to insert tabs
 #+END_SRC
 
 require the linum-relative package which enables relative line
-numbers. I've commented this out because use-package is erroring out.
-#+BEGIN_SRC emacs-lisp
-;;  (use-package linum-relative
-;;               :ensure t)
+numbers. I've disabled this out because use-package is erroring out.
+#+BEGIN_SRC emacs-lisp :tangle no
+  (use-package linum-relative
+               :ensure t)
 #+END_SRC
 
 turn on absolute line numbers. (I'm still working out the kinks with
@@ -183,13 +248,13 @@ require a final \n character at the end of the file
 
 Highlight characters in the 80th column in red. Shadows the font-face
 color set in the package.
-#+BEGIN_SRC emacs-lisp
-;;  (use-package "column-marker" :ensure t)
-;;  (add-hook 'prog-mode-hook (lambda ()
-;;                              (defface column-marker-1 '((t (:background "red")))
-;;    "Face used for a column marker.  Usually a background color."
-;;                              :group 'faces)
-;;                              (column-marker-1 80)))
+#+BEGIN_SRC emacs-lisp :tangle no
+  (use-package "column-marker" :ensure t)
+  (add-hook 'prog-mode-hook (lambda ()
+                              (defface column-marker-1 '((t (:background "red")))
+    "Face used for a column marker.  Usually a background color."
+                              :group 'faces)
+                              (column-marker-1 80)))
 #+END_SRC
 
 undo-tree mode makes it easier to navigate the undo history as a tree
@@ -241,10 +306,12 @@ structure.
 #+BEGIN_SRC emacs-lisp
   (add-hook 'org-mode-hook 'undo-tree-mode)
 #+END_SRC
+
 ** inserting source blocks
 - in the older versions of org-mode you could type `<s` followed by
   TAB to insert a code block.
 - now you can bring up a menu of template to insert with `C-c C-,`
+
 * ttl-mode
 i'm not super happy with this mode. might look for an alternative. The
 indentation it aggressivly-forces is annoying.
@@ -253,6 +320,21 @@ indentation it aggressivly-forces is annoying.
   (add-hook 'ttl-mode-hook 'turn-on-font-lock)
   (add-to-list 'auto-mode-alist '("\\.\\(n3\\|ttl\\|trig\\)\\'" . ttl-mode))
 #+end_src
+
+* projectile
+  install both projectile and its treemacs integration
+  #+BEGIN_SRC emacs-lisp
+    (use-package "projectile" :ensure t)
+    (use-package "treemacs-projectile" :ensure t)
+  #+END_SRC
+
+  basic treemacs setup. from https://github.com/bbatsov/projectile
+  #+BEGIN_SRC emacs-lisp
+    (projectile-mode +1)
+    (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  #+END_SRC
+
+  to jump to any file in a project, use C-c p f
 * smart-parens-mode
 
 #+BEGIN_SRC emacs-lisp
@@ -310,9 +392,8 @@ Configure pairing and auto-closing.
 
 Require web-mode. I've commented this out because use-package is
 erroring out
-#+BEGIN_SRC emacs-lisp
-;;  (use-package web-mode
-;;    :ensure t)
+#+BEGIN_SRC emacs-lisp :tangle no
+  (use-package web-mode :ensure t)
 #+END_SRC
 
 Set various file-types to invoke web-mode
@@ -351,6 +432,11 @@ don't remember what it does, but I'm sure it's great.
   (setq whitespace-style '(face trailing empty))
 #+END_SRC
 
+* dired-mode
+enable all-the-icons in dired mode
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+#+END_SRC
 * config for Ruby
 
 Require enh-ruby-mode.
@@ -885,81 +971,36 @@ use js2-mode instead of javascript mode
 
 * haskell
 
-ghcide setup, from https://github.com/digital-asset/ghcide/blob/39605333c34039241768a1809024c739df3fb2bd/README.md
+Since intero-mode has been end-of-lifed, i'm trying out dante.
 
-#+begin_src emacs-lisp
-  ;; LSP
-  (use-package flycheck
-    :ensure t
-    :init
-    (global-flycheck-mode t))
-  (use-package yasnippet
-    :ensure t)
-  (use-package lsp-mode
-    :ensure t
-    :hook (haskell-mode . lsp)
-    :commands lsp)
-  (use-package lsp-ui
-    :ensure t
-    :commands lsp-ui-mode)
-  (use-package lsp-haskell
-   :ensure t
-   :config
-   (setq lsp-haskell-process-path-hie "ghcide")
-   (setq lsp-haskell-process-args-hie '())
-   ;; Comment/uncomment this line to see interactions between lsp client/server.
-   ;;(setq lsp-log-io t)
-  )
-#+end_src
-
-use `C-c C-c` to apply LSP suggestions in lsp-ui-mode
-#+begin_src emacs-lisp
-  (add-hook 'lsp-ui-mode-hook (lambda () (local-set-key (kbd "C-c C-c") 'lsp-ui-sideline-apply-code-actions)))
-#+end_src
-
-** defunct
-*** haskell lsp-mode
-
-I first tried replacing intero-mode with haskell lsp-mode, but the
-interface was clunky and most of the advertised features didn't seem
-to work
-
-#+begin_src emacs-lisp :tangle no
-  (use-package "lsp-mode" :ensure t)
-  (use-package "lsp-ui" :ensure t)
-  (use-package "lsp-haskell" :ensure t)
-#+end_src
+#+BEGIN_SRC emacs-lisp
+  (use-package dante
+  :ensure t
+  :after haskell-mode
+  :commands 'dante-mode
+  :init
+  (add-hook 'haskell-mode-hook 'flycheck-mode)
+  (add-hook 'haskell-mode-hook 'dante-mode)
+  (add-hook 'haskell-mode-hook (lambda ()
+                                 (setq dante-tap-type-time 1)
+                                 )))
 
 
-*** intero-mode
-- unfortunately intero has been end-of-lifed, so everything in this
-section is useless. I still prefer it to the haskell lsp mode, so it's
-a real bummer...
+#+END_SRC
 
-- original:
+(setq dante-methods-alist (cons
+                                                            '(nix-no-net dante-cabal-nix ("nix-shell" "--no-substitute" "--run" (concat "cabal v1-repl " (or dante-target "") " --builddir=dist/dante")))
+                                                            dante-methods-alist))
+
+** previously on...
 
 Intero-mode is a nice nigh-IDE for haskell. But don't start it
 automatically in haskell files b/c sometimes it can require quite a
 bit of setup.
 
-
-#+BEGIN_SRC emacs-lisp :tangle no
-  (use-package "intero" :ensure t)
-#+END_SRC
-
-couldn't get dante mode working
-
-#+begin_src emacs-lisp :tangle no
-  (use-package "dante"
-    :ensure t
-    :after haskell-mode
-    :commands 'dante-mode
-    :init
-    (add-hook 'haskell-mode-hook 'flycheck-mode)
-    ;; OR:
-    ;; (add-hook 'haskell-mode-hook 'flymake-mode)
-    (add-hook 'haskell-mode-hook 'dante-mode))
-#+end_src
+# #+BEGIN_SRC emacs-lisp
+#   (use-package "intero" :ensure t)
+# #+END_SRC
 
 * Scala
 
@@ -974,40 +1015,73 @@ generic scala mode, not super useful.
 - (add-to-list 'company-backends 'company-elm)
 - look into ensure that elm-oracle is installed
 * java
+
+  tried out meghanada, but it was preventing saves and giving me other issues.
 ** meghanada
    Experimenting with this mode.
 
    The following are from https://github.com/mopemope/meghanada-emacs/blob/master/README.md
 
   meghanada-mode interfaces with a meghanada server, similar to
-  intero-mode for haskell (I'm assuming).
-#+BEGIN_SRC emacs-lisp
+  intero-mode for haskell (I'm assuming). but loading the java repos
+  at work basically crashes emacs
+#+BEGIN_SRC emacs-lisp :tangle no
   (use-package "meghanada" :ensure t)
 #+END_SRC
 
 dependencies of meghanada. Specified here: https://github.com/mopemope/meghanada-emacs
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
   (use-package "cl-lib" :ensure t)
   (use-package "yasnippet" :ensure t)
   (use-package "company" :ensure t)
   (use-package "flycheck" :ensure t)
 #+END_SRC
 
+the next code block does the following:
 - use meghanada in java-mode
 - enable flycheck
 - set indentation levels
 - set locations of java and maven
 - autoformat code on save
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
   (add-hook 'java-mode-hook
-	    (lambda ()
-	      (meghanada-mode t)
-	      (flycheck-mode +1)
-	      (setq c-basic-offset 4)
-	      (setq meghanada-java-path "java")
-	      (setq meghanada-maven-path "mvn")
-	      (add-hook 'before-save-hook 'meghanada-code-beautify-before-save)))
+       (lambda ()
+	 (meghanada-mode t)
+	 (flycheck-mode +1)
+	 (setq c-basic-offset 4)
+	 (setq meghanada-java-path "java")
+	 (setq meghanada-maven-path "mvn")
+	 ;; (add-hook 'before-save-hook 'meghanada-code-beautify-before-save)
+	 ))
+#+END_SRC
+
+** java lsp
+   set up java lsp mode
+   #+BEGIN_SRC emacs-lisp :tangle no
+     (use-package "lsp-mode" :ensure t)
+     (use-package "company-lsp" :ensure t)
+     (use-package "lsp-ui" :ensure t)
+     (use-package "lsp-java" :ensure t)
+
+     (add-hook 'java-mode-hook 'lsp)
+     (add-hook 'java-mode-hook 'flycheck-mode)
+     (add-hook 'java-mode-hook 'company-mode)
+   #+END_SRC
+
+   i've basically given in to intellij for java at work.
+
+* python
+
+  use a whitespace mode with python and convert tabs to spaces on saving
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'python-mode-hook
+            (lambda ()
+              (setq leerzeichen-line-feed-glyph (make-glyph-code ?  'leerzeichen))
+              (leerzeichen-mode 't)
+              ;; (add-hook 'before-save-hook (lambda ( ) (tabify (point-min) (point-max) 't)) nil 'local)
+              ))
+
 #+END_SRC
 
 * json
