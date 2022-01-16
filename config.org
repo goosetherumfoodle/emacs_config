@@ -1,5 +1,6 @@
 # #+OPTIONS: toc:2
 #+OPTIONS: toc:nil
+#+EXPORT_FILE_NAME: readme
 
 In the startup process emacs will read from [[file:init.el][init.el]] which will do
 some initial setup, [[https://en.wikipedia.org/wiki/Literate_programming][tangle]] the source blocks in =config.org= to generate
@@ -10,7 +11,7 @@ over it and hit ~C-h f <ENTER>~. To learn about a variable put the
 cursor over it and hit ~C-h v <ENTER>~. Source-blocks can be folded by
 putting the point over them and hitting ~<TAB>~.
 
-#+TOC: headlines 2
+#+TOC: headlines
 
 * notes
 
@@ -1317,7 +1318,7 @@ first... maybe. Either way I'm not doing it right now.
 
   #+END_SRC
 
-** custom functions
+** utility functions
 
 I wrote this because I missed Vi's "o" button which would create an
 empty line below the current one, and jump to it without breaking the
@@ -1332,12 +1333,10 @@ current line. I may be duplicating some existing emacs command here.
       (indent-for-tab-command))
 #+END_SRC
 
-I got this function from:
-http://ergoemacs.org/emacs/emacs_byte_compile.html
 *** org-mode spreadsheet helper functions
 I wrote these functions to help with calculating my work hours and
-wages in an org-mode spreadsheet. I needed these to help calculate
-values in spreadsheet cells.
+wages for a freelancing job. I needed these to help calculate values
+in spreadsheet cells.
 
 Adds up the minutes in hh:mm formatted time string.
 #+BEGIN_SRC emacs-lisp :results silent
@@ -1391,13 +1390,13 @@ Converts a float into dollar format ($0.00)
     (format "$%0.2f" float))
 #+END_SRC
 
-** novelty functions
-  These were the first functions I wrote, while reading the built-in
-  emacs lisp tutorial. A friend of mine loves the table-flipping meme,
+** (╯°□°)╯︵ ┻━┻
+  These were the first elisp functions I wrote, while reading the built-in
+  lisp tutorial. A friend of mine loves the table-flipping meme,
   but hates emacs. So I decided to write the table-flipping meme into
-  emacs.
+  emacs
 
-(╯°□°)╯︵ ┻━┻
+
 I started with this basic table-flipping character. Passing an
 argument will specify how long to pause before flipping.
 #+BEGIN_SRC emacs-lisp
