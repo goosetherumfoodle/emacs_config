@@ -1,5 +1,5 @@
 In the startup process emacs will read from [init.el](init.el) which will do
-some initial setup, [tangle](https://en.wikipedia.org/wiki/Literate_programming) the source blocks in [config.org](config.md) to generate
+some initial setup, [tangle](https://en.wikipedia.org/wiki/Literate_programming) the source blocks in `config.org` to generate
 and load `config.el` (which isn't tracked in git).
 
 When viewing this in emacs, to learn about a function put the point
@@ -10,55 +10,55 @@ putting the point over them and hitting `<TAB>`.
 
 # Table of Contents
 
-1.  [notes](#org25f32a6)
-    1.  [org mode](#orga08fa18)
-    2.  [literate programming](#org8a8c128)
-    3.  [dotenv files](#orgbba4c26)
-    4.  [emacs package management](#org37685f8)
-2.  [configuration](#org5ef36c3)
-    1.  [package installation](#org8a18fca)
-    2.  [intial](#orga1f7ba3)
-    3.  [macOS](#orgae81a4c)
-    4.  [global keybindings](#orgf7ce521)
-    5.  [buffer wrangling](#org71a769c)
-    6.  [text-mode](#orgda3feba)
-    7.  [prog-mode](#org4f4eff0)
-    8.  [org-mode](#org521adc1)
-    9.  [ttl-mode](#orgc4ddd44)
-    10. [projectile](#org7cdf264)
-    11. [smart-parens-mode](#org0890d7a)
-    12. [web-mode](#org867f6d2)
-    13. [whitespace-mode](#org536bbfc)
-    14. [dired-mode](#org5f3fa74)
-    15. [config for Ruby](#orgf815a82)
-    16. [config for Clojure](#org2b291dd)
-    17. [config for emacs lisp](#org32adfb6)
-    18. [config for scheme](#org39677a0)
-    19. [config for coffeescript](#org0e696fc)
-    20. [purescript](#org1a3bca6)
-    21. [language server protocol](#orga28e1ed)
-    22. [term-alert](#org1860d84)
-    23. [javascript](#org33d4496)
-    24. [haskell](#org3c2c3ac)
-    25. [Scala](#org3bfa86b)
-    26. [elm](#org879ad67)
-    27. [java](#org951f57d)
-    28. [python](#orgf557e35)
-    29. [json](#org1da0c35)
-    30. [git](#org049c67e)
-    31. [RSS](#org40b2df8)
-    32. [eshell](#orgdcb1356)
-    33. [Twilio sms](#orgf633e5f)
-    34. [custom functions](#org72088d9)
-    35. [novelty functions](#org07e5f2e)
+1.  [notes](#orgdf41231)
+    1.  [org mode](#org73c8caa)
+    2.  [literate programming](#orgd1943b6)
+    3.  [dotenv files](#orgc8dbe8b)
+    4.  [emacs package management](#org67ae609)
+2.  [configuration](#orgbeb97d1)
+    1.  [package installation](#org1350134)
+    2.  [intial](#org02bc497)
+    3.  [macOS](#org13c8907)
+    4.  [global keybindings](#org6d80cba)
+    5.  [buffer wrangling](#org0c93028)
+    6.  [text-mode](#org9f754b7)
+    7.  [prog-mode](#org461a615)
+    8.  [org-mode](#org45da5ed)
+    9.  [ttl-mode](#org9342752)
+    10. [projectile](#orgb4908f8)
+    11. [smart-parens-mode](#org490253a)
+    12. [web-mode](#orgbac88fa)
+    13. [whitespace-mode](#orgdf7ec27)
+    14. [dired-mode](#org03f2966)
+    15. [config for Ruby](#org532174e)
+    16. [config for Clojure](#org36c9190)
+    17. [config for emacs lisp](#org6ddf5de)
+    18. [config for scheme](#org2471950)
+    19. [config for coffeescript](#org1c0b2b1)
+    20. [purescript](#orge7bae65)
+    21. [language server protocol](#orga398190)
+    22. [term-alert](#org33f4fd5)
+    23. [javascript](#orgc4b9f72)
+    24. [haskell](#org0e106cf)
+    25. [Scala](#orgc744455)
+    26. [elm](#orgbeafbfd)
+    27. [java](#orga8e9595)
+    28. [python](#org607d6a5)
+    29. [json](#org515a378)
+    30. [git](#org81930c6)
+    31. [RSS](#org48b0dff)
+    32. [eshell](#orge85d468)
+    33. [Twilio sms](#org61893de)
+    34. [custom functions](#org3fa5810)
+    35. [novelty functions](#org8d2a7e7)
 
 
-<a id="org25f32a6"></a>
+<a id="orgdf41231"></a>
 
 # notes
 
 
-<a id="orga08fa18"></a>
+<a id="org73c8caa"></a>
 
 ## org mode
 
@@ -75,7 +75,7 @@ to insert a code block. Now you need to bring up a menu of templates
 to insert with `C-c C-,`
 
 
-<a id="org8a8c128"></a>
+<a id="orgd1943b6"></a>
 
 ## literate programming
 
@@ -83,7 +83,7 @@ This config file is really only scraping  the surface. [This blog
   post](http://www.howardism.org/Technical/Emacs/literate-programming-tutorial.html) gets into some more org-mode literate programming that I haven't explored yet.
 
 
-<a id="orgbba4c26"></a>
+<a id="orgc8dbe8b"></a>
 
 ## dotenv files
 
@@ -93,7 +93,7 @@ evidently didn't save it in my emacs config. so I need to figure that
 out again.
 
 
-<a id="org37685f8"></a>
+<a id="org67ae609"></a>
 
 ## emacs package management
 
@@ -104,12 +104,12 @@ of going down a rabbit hole on this right now I need to set aside time
 at some point to look into a better emacs package mgmt solution.
 
 
-<a id="org5ef36c3"></a>
+<a id="orgbeb97d1"></a>
 
 # configuration
 
 
-<a id="org8a18fca"></a>
+<a id="org1350134"></a>
 
 ## package installation
 
@@ -133,7 +133,7 @@ startup buffer with the results.
       (auto-package-update-maybe))
 
 
-<a id="orga1f7ba3"></a>
+<a id="org02bc497"></a>
 
 ## intial
 
@@ -248,7 +248,7 @@ Expired packages:
     (use-package "markdown-mode+")
 
 
-<a id="orgae81a4c"></a>
+<a id="org13c8907"></a>
 
 ## macOS
 
@@ -271,7 +271,7 @@ the shell. with any luck this will fix that
        (exec-path-from-shell-initialize)))
 
 
-<a id="orgf7ce521"></a>
+<a id="org6d80cba"></a>
 
 ## global keybindings
 
@@ -329,7 +329,7 @@ lines copied from <https://github.com/Wilfred/helpful/blob/0aa289e7a954df456793e
     (global-set-key (kbd "C-h C") #'helpful-command)
 
 
-<a id="org71a769c"></a>
+<a id="org0c93028"></a>
 
 ## buffer wrangling
 
@@ -344,7 +344,7 @@ swapping them.
     (global-set-key (kbd "C-M-,") 'swap-buffers)
 
 
-<a id="orgda3feba"></a>
+<a id="org9f754b7"></a>
 
 ## text-mode
 
@@ -353,7 +353,7 @@ Turn on auto-fill mode.
     (add-hook 'text-mode-hook 'turn-on-auto-fill)
 
 
-<a id="org4f4eff0"></a>
+<a id="org461a615"></a>
 
 ## prog-mode
 
@@ -395,7 +395,7 @@ structure.
     (add-hook 'prog-mode-hook 'undo-tree-mode)
 
 
-<a id="org521adc1"></a>
+<a id="org45da5ed"></a>
 
 ## org-mode
 
@@ -440,7 +440,7 @@ Prettify headings and plain lists in Org mode.
     (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
 
 
-<a id="orgc4ddd44"></a>
+<a id="org9342752"></a>
 
 ## ttl-mode
 
@@ -451,7 +451,7 @@ indentation it aggressivly-forces is annoying.
     (add-to-list 'auto-mode-alist '("\\.\\(n3\\|ttl\\|trig\\)\\'" . ttl-mode))
 
 
-<a id="org7cdf264"></a>
+<a id="orgb4908f8"></a>
 
 ## projectile
 
@@ -468,7 +468,7 @@ basic treemacs setup. from <https://github.com/bbatsov/projectile>
 to jump to any file in a project, use C-c p f
 
 
-<a id="org0890d7a"></a>
+<a id="org490253a"></a>
 
 ## smart-parens-mode
 
@@ -506,7 +506,7 @@ Use strict-mode.
     (add-hook 'smartparens-mode-hook 'smartparens-strict-mode)
 
 
-<a id="org867f6d2"></a>
+<a id="orgbac88fa"></a>
 
 ## web-mode
 
@@ -547,7 +547,7 @@ set "jsx" as content type with .js and .jsx files
       '(("jsx" . "\\.js[x]?\\'")))
 
 
-<a id="org536bbfc"></a>
+<a id="orgdf7ec27"></a>
 
 ## whitespace-mode
 
@@ -562,7 +562,7 @@ don't remember what it does, but I'm sure it's great.
     (setq whitespace-style '(face trailing empty))
 
 
-<a id="org5f3fa74"></a>
+<a id="org03f2966"></a>
 
 ## dired-mode
 
@@ -577,7 +577,7 @@ enable all-the-icons in dired mode&#x2026; but only if we're in a graphical fram
            (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))))
 
 
-<a id="orgf815a82"></a>
+<a id="org532174e"></a>
 
 ## config for Ruby
 
@@ -720,7 +720,7 @@ Adds a function to be run with enh-ruby-mode which:
         (ad-activate 'rspec-compile)
 
 
-<a id="org2b291dd"></a>
+<a id="org36c9190"></a>
 
 ## config for Clojure
 
@@ -857,7 +857,7 @@ results as an sms message.
             (list file line context)))
 
 
-<a id="org32adfb6"></a>
+<a id="org6ddf5de"></a>
 
 ## config for emacs lisp
 
@@ -894,7 +894,7 @@ date behind their byte-compiled versions.
     	    (add-hook 'after-save-hook 'byte-compile-current-buffer nil 'make-it-local)))
 
 
-<a id="org39677a0"></a>
+<a id="org2471950"></a>
 
 ## config for scheme
 
@@ -907,7 +907,7 @@ Start smartparens-mode with scheme.
     (add-hook 'scheme-mode-hook 'smartparens-mode)
 
 
-<a id="org0e696fc"></a>
+<a id="org1c0b2b1"></a>
 
 ## config for coffeescript
 
@@ -916,7 +916,7 @@ set coffee-mode to use a tab width of 2 spaces
     (add-hook 'coffee-mode-hook (lambda () (setq coffee-tab-width 2)))
 
 
-<a id="org1a3bca6"></a>
+<a id="orge7bae65"></a>
 
 ## purescript
 
@@ -1024,7 +1024,7 @@ to true, but I'm still going to leave this off for now because the
 LSP-mode is working fine.
 
 
-<a id="orga28e1ed"></a>
+<a id="orga398190"></a>
 
 ## language server protocol
 
@@ -1038,7 +1038,7 @@ for xmonad
     (setq lsp-keymap-prefix "C-c l")
 
 
-<a id="org1860d84"></a>
+<a id="org33f4fd5"></a>
 
 ## term-alert
 
@@ -1074,7 +1074,7 @@ Functions to be wrapped in the above commands.
       (gf/sms-notification "Term command completed."))
 
 
-<a id="org33d4496"></a>
+<a id="orgc4b9f72"></a>
 
 ## javascript
 
@@ -1097,7 +1097,7 @@ use js2-mode instead of javascript mode
        `(,(rx ".js$") . js2-mode))
 
 
-<a id="org3c2c3ac"></a>
+<a id="org0e106cf"></a>
 
 ## haskell
 
@@ -1122,7 +1122,7 @@ the closest to having all the features of intero-mode.
 (use-package "intero")
 
 
-<a id="org3bfa86b"></a>
+<a id="orgc744455"></a>
 
 ## Scala
 
@@ -1131,7 +1131,7 @@ generic scala mode, not super useful.
     (use-package "scala-mode")
 
 
-<a id="org879ad67"></a>
+<a id="orgbeafbfd"></a>
 
 ## elm
 
@@ -1142,7 +1142,7 @@ todo:
 3.  look into ensure that elm-oracle is installed
 
 
-<a id="org951f57d"></a>
+<a id="orga8e9595"></a>
 
 ## java
 
@@ -1203,7 +1203,7 @@ set up java lsp mode
 i've basically given in to intellij for java at work.
 
 
-<a id="orgf557e35"></a>
+<a id="org607d6a5"></a>
 
 ## python
 
@@ -1217,7 +1217,7 @@ use a whitespace mode with python and convert tabs to spaces on saving
     	    ))
 
 
-<a id="org1da0c35"></a>
+<a id="org515a378"></a>
 
 ## json
 
@@ -1228,7 +1228,7 @@ pretty print json files
     (setq json-reformat:indent-width 2)
 
 
-<a id="org049c67e"></a>
+<a id="org81930c6"></a>
 
 ## git
 
@@ -1245,7 +1245,7 @@ the minibuffer, so I've disabled it for the time being.
     (use-package "forge")
 
 
-<a id="org40b2df8"></a>
+<a id="org48b0dff"></a>
 
 ## RSS
 
@@ -1267,7 +1267,7 @@ supported.
     (setq rmh-elfeed-org-files (list "~/.emacs.d/elfeed.org"))
 
 
-<a id="orgdcb1356"></a>
+<a id="orge85d468"></a>
 
 ## eshell
 
@@ -1277,7 +1277,7 @@ them to this list if they don't work as expected with pipes.
     (eval-after-load "esh-proc" '(add-to-list 'eshell-needs-pipe "entr"))
 
 
-<a id="orgf633e5f"></a>
+<a id="org61893de"></a>
 
 ## Twilio sms
 
@@ -1354,7 +1354,7 @@ Generic command for sending an sms message to `env/my-phone`
     		       msg))
 
 
-<a id="org72088d9"></a>
+<a id="org3fa5810"></a>
 
 ## custom functions
 
@@ -1428,7 +1428,7 @@ Converts a float into dollar format ($0.00)
       (format "$%0.2f" float))
 
 
-<a id="org07e5f2e"></a>
+<a id="org8d2a7e7"></a>
 
 ## novelty functions
 
