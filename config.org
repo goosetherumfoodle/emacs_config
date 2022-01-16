@@ -1068,11 +1068,11 @@ use js2-mode instead of javascript mode
 
 ** haskell
 
-Since intero-mode has been end-of-lifed, i'm trying out dante.
+Since intero-mode has been end-of-lifed, i'm trying out [[https://github.com/jyp/dante][dante-mode]].
 
+set it to run in haskell mode.
 #+BEGIN_SRC emacs-lisp
   (use-package dante
-
   :after haskell-mode
   :commands 'dante-mode
   :init
@@ -1081,6 +1081,19 @@ Since intero-mode has been end-of-lifed, i'm trying out dante.
   (add-hook 'haskell-mode-hook (lambda () (setq dante-tap-type-time 1))))
 #+END_SRC
 
+the variable being set in the previous block sets how long we delay
+before querying the type of what's under the point.
+#+begin_src emacs-lisp :exports both
+  (describe-variable 'dante-tap-type-time)
+#+end_src
+
+Dante-mode can evaluate code in a commment block starting with ~-- >>>~
+
+#+begin_src haskell :results print
+  -- >>> let x = 2 :: Int
+  -- >>> x + 2
+  -- 4
+#+end_src
 
 *** previously on...
 

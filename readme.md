@@ -10,78 +10,78 @@ putting the point over them and hitting `<TAB>`.
 
 # Table of Contents
 
-1.  [notes](#orgd2b2150)
-    1.  [org mode](#org51480cd)
-        1.  [resources](#orgdd30201)
-        2.  [inserting source blocks](#org86a8a22)
-    2.  [literate programming](#org9e21855)
-    3.  [dotenv files](#orgdc6f418)
-    4.  [emacs package management](#org4a81f41)
-2.  [configuration](#orgfde31a3)
-    1.  [package installation](#orgf8e5291)
-    2.  [intial](#orge427473)
-        1.  [misc. required packages](#org6b19a73)
-    3.  [macOS](#org4c39e19)
-    4.  [global keybindings](#org5b89099)
-    5.  [buffer wrangling](#org90a0f58)
-    6.  [text-mode](#org60a9cb5)
-    7.  [prog-mode](#org68e0dd6)
-    8.  [org-mode](#org9f59d9a)
-    9.  [ttl-mode](#org31b1a1b)
-    10. [projectile](#org3901774)
-    11. [smart-parens-mode](#orga6d2503)
-    12. [web-mode](#orgd477b73)
-    13. [whitespace-mode](#orgd1f9df4)
-    14. [dired-mode](#org08d0f69)
-    15. [config for Ruby](#org9ebd7f7)
-        1.  [defunct](#org89fe108)
-    16. [config for Clojure](#org45db772)
-        1.  [cider-sms-all-tests](#orga6327f1)
-    17. [config for emacs lisp](#org5e80ee1)
-    18. [config for scheme](#orga3306de)
-    19. [config for coffeescript](#orgbb27d8b)
-    20. [purescript](#orgba080d5)
-        1.  [purescript-language-server integration](#orgdf9265c)
-        2.  [pscide integration attempt](#org48e7ad4)
-    21. [language server protocol](#org415dd58)
-    22. [term-alert](#org06381c9)
-    23. [javascript](#org44c6411)
-    24. [haskell](#orgf0c1dfc)
-        1.  [previously on&#x2026;](#org6bf7c39)
-    25. [Scala](#org5f0959d)
-    26. [elm](#org59c69bb)
-    27. [java](#org1abb530)
-        1.  [meghanada](#org514dc47)
-        2.  [java lsp](#org17976b1)
-    28. [python](#orga745318)
-    29. [json](#org1aee3de)
-    30. [git](#org9e49bb2)
-    31. [RSS](#orgacac159)
-    32. [eshell](#orge94fa49)
-    33. [Twilio sms](#orge769b2c)
-    34. [utility functions](#org2d24f76)
-        1.  [org-mode spreadsheet helper functions](#org30a93ca)
-    35. [(╯°□°)╯︵ ┻━┻](#orgfe8cd0f)
+1.  [notes](#org1805192)
+    1.  [org mode](#orgfaeb7bc)
+        1.  [resources](#orgbd213c7)
+        2.  [inserting source blocks](#org853e4d1)
+    2.  [literate programming](#org1e4174b)
+    3.  [dotenv files](#org152ca2f)
+    4.  [emacs package management](#org62ad0dc)
+2.  [configuration](#org4a9e011)
+    1.  [package installation](#org22c483c)
+    2.  [intial](#org8c17800)
+        1.  [misc. required packages](#org46923b4)
+    3.  [macOS](#org11eb7bd)
+    4.  [global keybindings](#org5173db9)
+    5.  [buffer wrangling](#org38141ba)
+    6.  [text-mode](#org00e6583)
+    7.  [prog-mode](#orgb06b5a9)
+    8.  [org-mode](#orga5d9a54)
+    9.  [ttl-mode](#org41ee8ae)
+    10. [projectile](#orgc735b45)
+    11. [smart-parens-mode](#org73e2179)
+    12. [web-mode](#orge369940)
+    13. [whitespace-mode](#org8bccce5)
+    14. [dired-mode](#org6862e1c)
+    15. [config for Ruby](#orgb5e9f82)
+        1.  [defunct](#org3f61f72)
+    16. [config for Clojure](#orga113992)
+        1.  [cider-sms-all-tests](#org4ffc3ee)
+    17. [config for emacs lisp](#org7a0eb83)
+    18. [config for scheme](#org4e5ceba)
+    19. [config for coffeescript](#orgb4ba88f)
+    20. [purescript](#org572c8e2)
+        1.  [purescript-language-server integration](#orgd1a6e13)
+        2.  [pscide integration attempt](#org260dfc9)
+    21. [language server protocol](#org972ee02)
+    22. [term-alert](#orgce765f1)
+    23. [javascript](#org861bfad)
+    24. [haskell](#org06d31d1)
+        1.  [previously on&#x2026;](#orgd1303dd)
+    25. [Scala](#orgd11c755)
+    26. [elm](#org90ec755)
+    27. [java](#org243b4d8)
+        1.  [meghanada](#org094f35d)
+        2.  [java lsp](#org252033e)
+    28. [python](#orgf583476)
+    29. [json](#org3fe3ea5)
+    30. [git](#org9059bc9)
+    31. [RSS](#orgbdb5a36)
+    32. [eshell](#orge66209f)
+    33. [Twilio sms](#orgf3b9354)
+    34. [utility functions](#orgeaf81ef)
+        1.  [org-mode spreadsheet helper functions](#org14ddf60)
+    35. [(╯°□°)╯︵ ┻━┻](#org6c3cf52)
 
 
-<a id="orgd2b2150"></a>
+<a id="org1805192"></a>
 
 # notes
 
 
-<a id="org51480cd"></a>
+<a id="orgfaeb7bc"></a>
 
 ## org mode
 
 
-<a id="orgdd30201"></a>
+<a id="orgbd213c7"></a>
 
 ### resources
 
 [org-contrib](https://orgmode.org/worg/org-contrib/) lists some  more org mode funtionality that might be worth checking out.
 
 
-<a id="org86a8a22"></a>
+<a id="org853e4d1"></a>
 
 ### inserting source blocks
 
@@ -90,7 +90,7 @@ to insert a code block. Now you need to bring up a menu of templates
 to insert with `C-c C-,`
 
 
-<a id="org9e21855"></a>
+<a id="org1e4174b"></a>
 
 ## literate programming
 
@@ -98,7 +98,7 @@ This config file is really only scraping  the surface. [This blog
   post](http://www.howardism.org/Technical/Emacs/literate-programming-tutorial.html) gets into some more org-mode literate programming that I haven't explored yet.
 
 
-<a id="orgdc6f418"></a>
+<a id="org152ca2f"></a>
 
 ## dotenv files
 
@@ -108,7 +108,7 @@ evidently didn't save it in my emacs config. so I need to figure that
 out again.
 
 
-<a id="org4a81f41"></a>
+<a id="org62ad0dc"></a>
 
 ## emacs package management
 
@@ -119,12 +119,12 @@ of going down a rabbit hole on this right now I need to set aside time
 at some point to look into a better emacs package mgmt solution.
 
 
-<a id="orgfde31a3"></a>
+<a id="org4a9e011"></a>
 
 # configuration
 
 
-<a id="orgf8e5291"></a>
+<a id="org22c483c"></a>
 
 ## package installation
 
@@ -148,7 +148,7 @@ startup buffer with the results.
       (auto-package-update-maybe))
 
 
-<a id="orge427473"></a>
+<a id="org8c17800"></a>
 
 ## intial
 
@@ -212,7 +212,7 @@ display column numbers alongside line numbers
     (setq column-number-mode t)
 
 
-<a id="org6b19a73"></a>
+<a id="org46923b4"></a>
 
 ### misc. required packages
 
@@ -265,7 +265,7 @@ Expired packages:
     (use-package "markdown-mode+")
 
 
-<a id="org4c39e19"></a>
+<a id="org11eb7bd"></a>
 
 ## macOS
 
@@ -288,7 +288,7 @@ the shell. with any luck this will fix that
        (exec-path-from-shell-initialize)))
 
 
-<a id="org5b89099"></a>
+<a id="org5173db9"></a>
 
 ## global keybindings
 
@@ -346,7 +346,7 @@ lines copied from <https://github.com/Wilfred/helpful/blob/0aa289e7a954df456793e
     (global-set-key (kbd "C-h C") #'helpful-command)
 
 
-<a id="org90a0f58"></a>
+<a id="org38141ba"></a>
 
 ## buffer wrangling
 
@@ -361,7 +361,7 @@ swapping them.
     (global-set-key (kbd "C-M-,") 'swap-buffers)
 
 
-<a id="org60a9cb5"></a>
+<a id="org00e6583"></a>
 
 ## text-mode
 
@@ -370,7 +370,7 @@ Turn on auto-fill mode.
     (add-hook 'text-mode-hook 'turn-on-auto-fill)
 
 
-<a id="org68e0dd6"></a>
+<a id="orgb06b5a9"></a>
 
 ## prog-mode
 
@@ -412,7 +412,7 @@ structure.
     (add-hook 'prog-mode-hook 'undo-tree-mode)
 
 
-<a id="org9f59d9a"></a>
+<a id="orga5d9a54"></a>
 
 ## org-mode
 
@@ -457,7 +457,7 @@ Prettify headings and plain lists in Org mode.
     (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
 
 
-<a id="org31b1a1b"></a>
+<a id="org41ee8ae"></a>
 
 ## ttl-mode
 
@@ -468,7 +468,7 @@ indentation it aggressivly-forces is annoying.
     (add-to-list 'auto-mode-alist '("\\.\\(n3\\|ttl\\|trig\\)\\'" . ttl-mode))
 
 
-<a id="org3901774"></a>
+<a id="orgc735b45"></a>
 
 ## projectile
 
@@ -485,7 +485,7 @@ basic treemacs setup. from <https://github.com/bbatsov/projectile>
 to jump to any file in a project, use C-c p f
 
 
-<a id="orga6d2503"></a>
+<a id="org73e2179"></a>
 
 ## smart-parens-mode
 
@@ -523,7 +523,7 @@ Use strict-mode.
     (add-hook 'smartparens-mode-hook 'smartparens-strict-mode)
 
 
-<a id="orgd477b73"></a>
+<a id="orge369940"></a>
 
 ## web-mode
 
@@ -564,7 +564,7 @@ set "jsx" as content type with .js and .jsx files
       '(("jsx" . "\\.js[x]?\\'")))
 
 
-<a id="orgd1f9df4"></a>
+<a id="org8bccce5"></a>
 
 ## whitespace-mode
 
@@ -579,7 +579,7 @@ don't remember what it does, but I'm sure it's great.
     (setq whitespace-style '(face trailing empty))
 
 
-<a id="org08d0f69"></a>
+<a id="org6862e1c"></a>
 
 ## dired-mode
 
@@ -594,7 +594,7 @@ enable all-the-icons in dired mode&#x2026; but only if we're in a graphical fram
            (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))))
 
 
-<a id="org9ebd7f7"></a>
+<a id="orgb5e9f82"></a>
 
 ## config for Ruby
 
@@ -630,7 +630,7 @@ Adds a function to be run with enh-ruby-mode which:
     (add-hook 'enh-ruby-mode-hook 'my-enh-ruby-mode-config)
 
 
-<a id="org89fe108"></a>
+<a id="org3f61f72"></a>
 
 ### defunct
 
@@ -739,7 +739,7 @@ Adds a function to be run with enh-ruby-mode which:
         (ad-activate 'rspec-compile)
 
 
-<a id="org45db772"></a>
+<a id="orga113992"></a>
 
 ## config for Clojure
 
@@ -778,7 +778,7 @@ use clojure-refactor package, and set it to use dot prefix notation in requireme
     (setq cljr-favor-prefix-notation nil)
 
 
-<a id="orga6327f1"></a>
+<a id="org4ffc3ee"></a>
 
 ### cider-sms-all-tests
 
@@ -878,7 +878,7 @@ results as an sms message.
             (list file line context)))
 
 
-<a id="org5e80ee1"></a>
+<a id="org7a0eb83"></a>
 
 ## config for emacs lisp
 
@@ -915,7 +915,7 @@ date behind their byte-compiled versions.
     	    (add-hook 'after-save-hook 'byte-compile-current-buffer nil 'make-it-local)))
 
 
-<a id="orga3306de"></a>
+<a id="org4e5ceba"></a>
 
 ## config for scheme
 
@@ -928,7 +928,7 @@ Start smartparens-mode with scheme.
     (add-hook 'scheme-mode-hook 'smartparens-mode)
 
 
-<a id="orgbb27d8b"></a>
+<a id="orgb4ba88f"></a>
 
 ## config for coffeescript
 
@@ -937,7 +937,7 @@ set coffee-mode to use a tab width of 2 spaces
     (add-hook 'coffee-mode-hook (lambda () (setq coffee-tab-width 2)))
 
 
-<a id="orgba080d5"></a>
+<a id="org572c8e2"></a>
 
 ## purescript
 
@@ -968,7 +968,7 @@ purescript-mode buffers.
     	(replace-match new))))
 
 
-<a id="orgdf9265c"></a>
+<a id="orgd1a6e13"></a>
 
 ### purescript-language-server integration
 
@@ -1029,7 +1029,7 @@ purescript. Both of the following should succeed (in the nix shell):
     purs ide # this is what the the above command wraps
 
 
-<a id="org48e7ad4"></a>
+<a id="org260dfc9"></a>
 
 ### pscide integration attempt
 
@@ -1049,7 +1049,7 @@ to true, but I'm still going to leave this off for now because the
 LSP-mode is working fine.
 
 
-<a id="org415dd58"></a>
+<a id="org972ee02"></a>
 
 ## language server protocol
 
@@ -1063,7 +1063,7 @@ for xmonad
     (setq lsp-keymap-prefix "C-c l")
 
 
-<a id="org06381c9"></a>
+<a id="orgce765f1"></a>
 
 ## term-alert
 
@@ -1099,7 +1099,7 @@ Functions to be wrapped in the above commands.
       (gf/sms-notification "Term command completed."))
 
 
-<a id="org44c6411"></a>
+<a id="org861bfad"></a>
 
 ## javascript
 
@@ -1122,14 +1122,15 @@ use js2-mode instead of javascript mode
        `(,(rx ".js$") . js2-mode))
 
 
-<a id="orgf0c1dfc"></a>
+<a id="org06d31d1"></a>
 
 ## haskell
 
-Since intero-mode has been end-of-lifed, i'm trying out dante.
+Since intero-mode has been end-of-lifed, i'm trying out [dante-mode](https://github.com/jyp/dante).
+
+set it to run in haskell mode.
 
     (use-package dante
-
     :after haskell-mode
     :commands 'dante-mode
     :init
@@ -1137,8 +1138,19 @@ Since intero-mode has been end-of-lifed, i'm trying out dante.
     (add-hook 'haskell-mode-hook 'dante-mode)
     (add-hook 'haskell-mode-hook (lambda () (setq dante-tap-type-time 1))))
 
+the variable being set in the previous block sets how long we delay
+before querying the type of what's under the point.
 
-<a id="org6bf7c39"></a>
+    (describe-variable 'dante-tap-type-time)
+
+Dante-mode can evaluate code in a commment block starting with `-- >>>`
+
+    -- >>> let x = 2 :: Int
+    -- >>> x + 2
+    -- 4
+
+
+<a id="orgd1303dd"></a>
 
 ### previously on&#x2026;
 
@@ -1149,7 +1161,7 @@ the closest to having all the features of intero-mode.
 (use-package "intero")
 
 
-<a id="org5f0959d"></a>
+<a id="orgd11c755"></a>
 
 ## Scala
 
@@ -1158,7 +1170,7 @@ generic scala mode, not super useful.
     (use-package "scala-mode")
 
 
-<a id="org59c69bb"></a>
+<a id="org90ec755"></a>
 
 ## elm
 
@@ -1169,14 +1181,14 @@ todo:
 3.  look into ensure that elm-oracle is installed
 
 
-<a id="org1abb530"></a>
+<a id="org243b4d8"></a>
 
 ## java
 
 tried out meghanada, but it was preventing saves and giving me other issues.
 
 
-<a id="org514dc47"></a>
+<a id="org094f35d"></a>
 
 ### meghanada
 
@@ -1216,7 +1228,7 @@ the next code block does the following:
            ))
 
 
-<a id="org17976b1"></a>
+<a id="org252033e"></a>
 
 ### java lsp
 
@@ -1234,7 +1246,7 @@ set up java lsp mode
 i've basically given in to intellij for java at work.
 
 
-<a id="orga745318"></a>
+<a id="orgf583476"></a>
 
 ## python
 
@@ -1248,7 +1260,7 @@ use a whitespace mode with python and convert tabs to spaces on saving
     	    ))
 
 
-<a id="org1aee3de"></a>
+<a id="org3fe3ea5"></a>
 
 ## json
 
@@ -1259,7 +1271,7 @@ pretty print json files
     (setq json-reformat:indent-width 2)
 
 
-<a id="org9e49bb2"></a>
+<a id="org9059bc9"></a>
 
 ## git
 
@@ -1276,7 +1288,7 @@ the minibuffer, so I've disabled it for the time being.
     (use-package "forge")
 
 
-<a id="orgacac159"></a>
+<a id="orgbdb5a36"></a>
 
 ## RSS
 
@@ -1298,7 +1310,7 @@ supported.
     (setq rmh-elfeed-org-files (list "~/.emacs.d/elfeed.org"))
 
 
-<a id="orge94fa49"></a>
+<a id="orge66209f"></a>
 
 ## eshell
 
@@ -1308,7 +1320,7 @@ them to this list if they don't work as expected with pipes.
     (eval-after-load "esh-proc" '(add-to-list 'eshell-needs-pipe "entr"))
 
 
-<a id="orge769b2c"></a>
+<a id="orgf3b9354"></a>
 
 ## Twilio sms
 
@@ -1385,7 +1397,7 @@ Generic command for sending an sms message to `env/my-phone`
     		       msg))
 
 
-<a id="org2d24f76"></a>
+<a id="orgeaf81ef"></a>
 
 ## utility functions
 
@@ -1402,7 +1414,7 @@ current line. I may be duplicating some existing emacs command here.
         (indent-for-tab-command))
 
 
-<a id="org30a93ca"></a>
+<a id="org14ddf60"></a>
 
 ### org-mode spreadsheet helper functions
 
@@ -1458,7 +1470,7 @@ Converts a float into dollar format ($0.00)
       (format "$%0.2f" float))
 
 
-<a id="orgfe8cd0f"></a>
+<a id="org6c3cf52"></a>
 
 ## (╯°□°)╯︵ ┻━┻
 
